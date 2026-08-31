@@ -1,19 +1,233 @@
 <!DOCTYPE html>
 <html manifest="cache.manifest">
 <head>
-<title>PS4 13.00 FW GoldHEN Host by OBADA</title>
-<link rel="stylesheet" href="../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS4 13.00 FW GoldHEN Host by OBADA</title>
+
+    <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
+
 <script>
-history.replaceState(null,null,'index.html');var histlength=history.length;history.go(-histlength);
-function DLProgress(e){Percent=(Math.round(e.loaded / e.total * 100));setTimeout(function(){window.msgs.innerHTML="Installing Offline Cache: " + Percent + "%";},500)}
-function DisplayCacheProgress(){setTimeout(function(){window.msgs.innerHTML="Cache Installed Successfully ✔";},1500);setTimeout(function(){window.msgs.innerHTML="Now Close And Re-Open Your Browser ...";},3500);}window.applicationCache.addEventListener("progress",DLProgress,false);window.applicationCache.oncached=function(e){DisplayCacheProgress();};window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
+(function () {
+    "use strict";
+
+    var appCache = window.applicationCache;
+    var msg = null;
+    var lastProgress = -1;
+
+    function setMessage(text) {
+        if (!msg) {
+            msg = document.getElementById("msgs");
+        }
+
+        if (msg) {
+            msg.innerHTML = text;
+        }
+
+        console.log("[CACHE] " + text);
+    }
+
+    function showProgress(percent) {
+        percent = Math.max(0, Math.min(100, percent));
+
+        if (percent === lastProgress) {
+            return;
+        }
+
+        lastProgress = percent;
+        setMessage("Installing Offline Cache: " + percent + "%");
+    }
+
+    function displaySuccess() {
+        setMessage("Cache Installed Successfully ✔");
+
+        setTimeout(function () {
+            setMessage("Now Close And Re-Open Your Browser ...");
+        }, 3500);
+    }
+
+    function displayError(event) {
+        console.error("[CACHE] Application Cache error:", event);
+
+        setMessage(
+            "Cache Error ⚠<br>" +
+            "<small>Check the browser cache and try again.</small>"
+        );
+    }
+
+    function displayAbort(event) {
+        console.warn("[CACHE] Application Cache aborted:", event);
+
+        setMessage(
+            "Cache Download Aborted ⚠<br>" +
+            "<small>Please try again.</small>"
+        );
+    }
+
+    function onChecking() {
+        setMessage("Checking Offline Cache ...");
+    }
+
+    function onDownloading() {
+        setMessage("Downloading Offline Cache ...");
+    }
+
+    function onNoUpdate() {
+        setMessage("Offline Cache Already Installed ✔");
+
+        setTimeout(function () {
+            setMessage("Now Close And Re-Open Your Browser ...");
+        }, 2500);
+    }
+
+    function onProgress(event) {
+        /*
+         * ApplicationCache progress events normally provide
+         * loaded and total.
+         */
+        if (
+            event &&
+            typeof event.loaded === "number" &&
+            typeof event.total === "number" &&
+            event.total > 0
+        ) {
+            var percent = Math.round(
+                (event.loaded / event.total) * 100
+            );
+
+            showProgress(percent);
+
+            console.log(
+                "[CACHE] Progress:",
+                event.loaded + "/" + event.total,
+                percent + "%"
+            );
+        } else {
+            setMessage("Downloading Offline Cache ...");
+        }
+    }
+
+    function onCached() {
+        console.log("[CACHE] cached");
+        displaySuccess();
+    }
+
+    function onUpdateReady() {
+        console.log("[CACHE] updateready");
+
+        try {
+            if (appCache.status === appCache.UPDATEREADY) {
+                appCache.swapCache();
+            }
+        } catch (e) {
+            console.warn("[CACHE] swapCache failed:", e);
+        }
+
+        displaySuccess();
+    }
+
+    /*
+     * Register all Application Cache events.
+     */
+    appCache.addEventListener("checking", onChecking, false);
+    appCache.addEventListener("downloading", onDownloading, false);
+    appCache.addEventListener("progress", onProgress, false);
+    appCache.addEventListener("noupdate", onNoUpdate, false);
+    appCache.addEventListener("cached", onCached, false);
+    appCache.addEventListener("updateready", onUpdateReady, false);
+    appCache.addEventListener("error", displayError, false);
+    appCache.addEventListener("abort", displayAbort, false);
+
+    /*
+     * Print current Application Cache status.
+     */
+    window.addEventListener("load", function () {
+        var status = appCache.status;
+
+        console.log("[CACHE] Initial status:", status);
+
+        switch (status) {
+            case appCache.UNCACHED:
+                console.log("[CACHE] Status: UNCACHED");
+                break;
+
+            case appCache.IDLE:
+                console.log("[CACHE] Status: IDLE");
+                break;
+
+            case appCache.CHECKING:
+                console.log("[CACHE] Status: CHECKING");
+                break;
+
+            case appCache.DOWNLOADING:
+                console.log("[CACHE] Status: DOWNLOADING");
+                break;
+
+            case appCache.UPDATEREADY:
+                console.log("[CACHE] Status: UPDATEREADY");
+                break;
+
+            case appCache.OBSOLETE:
+                console.log("[CACHE] Status: OBSOLETE");
+                break;
+
+            default:
+                console.log("[CACHE] Status: UNKNOWN");
+        }
+    });
+
+})();
 </script>
+
 <h1>PS4 13.00 FW GoldHEN Host by OBADA</h1>
+
 <hr>
+
 <br>
-<h1 id="msgs" style="font-size: 30px;margin-top: 77px;margin-bottom: 455px;">Wait a Moment...</h1>
-<h1 style="margin-top: 43px;">Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@sleirsgoevy</a>ChendoChap<a href="https://twitter.com/Znullptr" style="color: #f31414;margin-left: 10px;margin-right: 10px;">@Znullptr</a>SiSTR0</h1>
+
+<h1
+    id="msgs"
+    style="
+        font-size: 30px;
+        margin-top: 77px;
+        margin-bottom: 455px;
+    "
+>
+    Wait a Moment...
+</h1>
+
+<h1 style="margin-top: 43px;">
+    Special Thanks to:
+
+    <a
+        href="https://twitter.com/sleirsgoevy"
+        style="
+            color: #f31414;
+            margin-left: 10px;
+            margin-right: 10px;
+        "
+    >
+        @sleirsgoevy
+    </a>
+
+    ChendoChap
+
+    <a
+        href="https://twitter.com/Znullptr"
+        style="
+            color: #f31414;
+            margin-left: 10px;
+            margin-right: 10px;
+        "
+    >
+        @Znullptr
+    </a>
+
+    SiSTR0
+</h1>
+
 </body>
 </html>
