@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html manifest="cache.manifest">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>PS4 13.00 FW GoldHEN Host by OBADA</title>
 
     <link rel="stylesheet" href="../style.css">
@@ -15,10 +17,32 @@
     "use strict";
 
     var appCache = window.applicationCache;
-    var msg = null;
-    var lastProgress = -1;
+    var msg;
+    var progress = 0;
+    var events = [];
+    var resources = [
+        "../img.jpg",
+        "../style.css",
+        "chain_poops.js",
+        "int64.js",
+        "mem.js",
+        "ps4_offsets.js",
+        "run_poops.html",
+        "core.js?v=10",
+        "payload.bin"
+    ];
 
-    function setMessage(text) {
+    function log(text) {
+        console.log("[APP-CACHE] " + text);
+
+        events.push(text);
+
+        if (events.length > 20) {
+            events.shift();
+        }
+    }
+
+    function show(text) {
         if (!msg) {
             msg = document.getElementById("msgs");
         }
@@ -27,162 +51,260 @@
             msg.innerHTML = text;
         }
 
-        console.log("[CACHE] " + text);
+        log(text.replace(/<[^>]*>/g, ""));
     }
 
-    function showProgress(percent) {
-        percent = Math.max(0, Math.min(100, percent));
-
-        if (percent === lastProgress) {
-            return;
+    function showProgress(e) {
+        if (
+            e &&
+            typeof e.loaded === "number" &&
+            typeof e.total === "number" &&
+            e.total > 0
+        ) {
+            progress = Math.round(
+                (e.loaded / e.total) * 100
+            );
+        } else {
+            progress++;
         }
 
-        lastProgress = percent;
-        setMessage("Installing Offline Cache: " + percent + "%");
-    }
+        if (progress > 100) {
+            progress = 100;
+        }
 
-    function displaySuccess() {
-        setMessage("Cache Installed Successfully ✔");
+        show(
+            "Installing Offline Cache: " +
+            progress +
+            "%"
+        );
 
-        setTimeout(function () {
-            setMessage("Now Close And Re-Open Your Browser ...");
-        }, 3500);
-    }
-
-    function displayError(event) {
-        console.error("[CACHE] Application Cache error:", event);
-
-        setMessage(
-            "Cache Error ⚠<br>" +
-            "<small>Check the browser cache and try again.</small>"
+        log(
+            "Progress " +
+            e.loaded +
+            "/" +
+            e.total +
+            " (" +
+            progress +
+            "%)"
         );
     }
 
-    function displayAbort(event) {
-        console.warn("[CACHE] Application Cache aborted:", event);
+    function statusName(status) {
+        switch (status) {
+            case appCache.UNCACHED:
+                return "UNCACHED";
 
-        setMessage(
-            "Cache Download Aborted ⚠<br>" +
-            "<small>Please try again.</small>"
+            case appCache.IDLE:
+                return "IDLE";
+
+            case appCache.CHECKING:
+                return "CHECKING";
+
+            case appCache.DOWNLOADING:
+                return "DOWNLOADING";
+
+            case appCache.UPDATEREADY:
+                return "UPDATEREADY";
+
+            case appCache.OBSOLETE:
+                return "OBSOLETE";
+
+            default:
+                return "UNKNOWN (" + status + ")";
+        }
+    }
+
+    function showError(e) {
+        console.error(
+            "[APP-CACHE] ERROR EVENT",
+            e
+        );
+
+        var details =
+            "<br><br>" +
+            "<small>" +
+            "Status: " +
+            statusName(appCache.status) +
+            "<br>" +
+            "Progress: " +
+            progress +
+            "%" +
+            "<br>" +
+            "Last event: " +
+            (events.length ?
+                events[events.length - 1] :
+                "unknown") +
+            "</small>";
+
+        show(
+            "Cache Error ⚠" +
+            details
+        );
+
+        /*
+         * Print manifest resources so we can compare
+         * them manually with the server.
+         */
+        console.group("[APP-CACHE] Manifest resources");
+
+        for (var i = 0; i < resources.length; i++) {
+            console.log(
+                "#" + (i + 1),
+                resources[i]
+            );
+        }
+
+        console.groupEnd();
+
+        console.error(
+            "[APP-CACHE] Full event history:",
+            events
         );
     }
 
-    function onChecking() {
-        setMessage("Checking Offline Cache ...");
+    function showAbort() {
+        show(
+            "Cache Download Aborted ⚠" +
+            "<br><small>" +
+            "Progress: " +
+            progress +
+            "%" +
+            "</small>"
+        );
     }
 
-    function onDownloading() {
-        setMessage("Downloading Offline Cache ...");
+    function checking() {
+        show("Checking Offline Cache ...");
     }
 
-    function onNoUpdate() {
-        setMessage("Offline Cache Already Installed ✔");
+    function downloading() {
+        show("Downloading Offline Cache ...");
+    }
+
+    function noupdate() {
+        show("Offline Cache Already Installed ✔");
 
         setTimeout(function () {
-            setMessage("Now Close And Re-Open Your Browser ...");
+            show(
+                "Now Close And Re-Open Your Browser ..."
+            );
         }, 2500);
     }
 
-    function onProgress(event) {
-        /*
-         * ApplicationCache progress events normally provide
-         * loaded and total.
-         */
-        if (
-            event &&
-            typeof event.loaded === "number" &&
-            typeof event.total === "number" &&
-            event.total > 0
-        ) {
-            var percent = Math.round(
-                (event.loaded / event.total) * 100
-            );
+    function cached() {
+        show("Cache Installed Successfully ✔");
 
-            showProgress(percent);
-
-            console.log(
-                "[CACHE] Progress:",
-                event.loaded + "/" + event.total,
-                percent + "%"
+        setTimeout(function () {
+            show(
+                "Now Close And Re-Open Your Browser ..."
             );
-        } else {
-            setMessage("Downloading Offline Cache ...");
-        }
+        }, 3500);
     }
 
-    function onCached() {
-        console.log("[CACHE] cached");
-        displaySuccess();
-    }
-
-    function onUpdateReady() {
-        console.log("[CACHE] updateready");
+    function updateReady() {
+        log("UPDATE READY");
 
         try {
-            if (appCache.status === appCache.UPDATEREADY) {
+            if (
+                appCache.status ===
+                appCache.UPDATEREADY
+            ) {
                 appCache.swapCache();
+                log("swapCache() successful");
             }
-        } catch (e) {
-            console.warn("[CACHE] swapCache failed:", e);
+        } catch (err) {
+            console.error(
+                "[APP-CACHE] swapCache failed:",
+                err
+            );
         }
 
-        displaySuccess();
+        show("Cache Updated Successfully ✔");
     }
 
-    /*
-     * Register all Application Cache events.
-     */
-    appCache.addEventListener("checking", onChecking, false);
-    appCache.addEventListener("downloading", onDownloading, false);
-    appCache.addEventListener("progress", onProgress, false);
-    appCache.addEventListener("noupdate", onNoUpdate, false);
-    appCache.addEventListener("cached", onCached, false);
-    appCache.addEventListener("updateready", onUpdateReady, false);
-    appCache.addEventListener("error", displayError, false);
-    appCache.addEventListener("abort", displayAbort, false);
+    appCache.addEventListener(
+        "checking",
+        checking,
+        false
+    );
 
-    /*
-     * Print current Application Cache status.
-     */
-    window.addEventListener("load", function () {
-        var status = appCache.status;
+    appCache.addEventListener(
+        "downloading",
+        downloading,
+        false
+    );
 
-        console.log("[CACHE] Initial status:", status);
+    appCache.addEventListener(
+        "progress",
+        showProgress,
+        false
+    );
 
-        switch (status) {
-            case appCache.UNCACHED:
-                console.log("[CACHE] Status: UNCACHED");
-                break;
+    appCache.addEventListener(
+        "noupdate",
+        noupdate,
+        false
+    );
 
-            case appCache.IDLE:
-                console.log("[CACHE] Status: IDLE");
-                break;
+    appCache.addEventListener(
+        "cached",
+        cached,
+        false
+    );
 
-            case appCache.CHECKING:
-                console.log("[CACHE] Status: CHECKING");
-                break;
+    appCache.addEventListener(
+        "updateready",
+        updateReady,
+        false
+    );
 
-            case appCache.DOWNLOADING:
-                console.log("[CACHE] Status: DOWNLOADING");
-                break;
+    appCache.addEventListener(
+        "error",
+        showError,
+        false
+    );
 
-            case appCache.UPDATEREADY:
-                console.log("[CACHE] Status: UPDATEREADY");
-                break;
+    appCache.addEventListener(
+        "abort",
+        showAbort,
+        false
+    );
 
-            case appCache.OBSOLETE:
-                console.log("[CACHE] Status: OBSOLETE");
-                break;
+    window.addEventListener(
+        "load",
+        function () {
 
-            default:
-                console.log("[CACHE] Status: UNKNOWN");
-        }
-    });
+            log(
+                "Initial status: " +
+                statusName(appCache.status)
+            );
+
+            console.log(
+                "[APP-CACHE] Manifest resources:"
+            );
+
+            for (
+                var i = 0;
+                i < resources.length;
+                i++
+            ) {
+                console.log(
+                    "#" + (i + 1) +
+                    " -> " +
+                    resources[i]
+                );
+            }
+        },
+        false
+    );
 
 })();
 </script>
 
-<h1>PS4 13.00 FW GoldHEN Host by OBADA</h1>
+
+<h1>
+    PS4 13.00 FW GoldHEN Host by OBADA
+</h1>
 
 <hr>
 
@@ -200,6 +322,7 @@
 </h1>
 
 <h1 style="margin-top: 43px;">
+
     Special Thanks to:
 
     <a
@@ -227,6 +350,7 @@
     </a>
 
     SiSTR0
+
 </h1>
 
 </body>
