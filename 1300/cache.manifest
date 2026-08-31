@@ -3,7 +3,7 @@ CACHE MANIFEST
 CACHE:
 ../img.jpg
 ../style.css
-chain_poops.js
+./chain_poops.js
 int64.js
 mem.js
 ps4_offsets.js
