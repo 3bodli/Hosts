@@ -9,4 +9,4 @@ mem.js
 ps4_offsets.js
 run_poops.html
 core.js?v=10
-payload.bin
+patches/payload.bin
