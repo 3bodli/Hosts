@@ -98,3 +98,39 @@ a {
     background-color: #c2c2c2;
     color: #303030;
 }
+
+/* تحسينات لعرض التخزين المؤقت */
+#cache-status {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#cache-status button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#cache-status button:hover {
+    background: #45a049;
+}
+
+/* تحسينات للوضع الليلي */
+body {
+    background-color: #1a1a2e;
+    color: #eee;
+}
+
+#brand {
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-bottom: 2px solid #333;
+}
+
+.bad { color: #ff6b6b; }
+.warn { color: #ffd93d; }
+.ok { color: #6bcb77; }
