@@ -13,6 +13,19 @@ let passCount = 0, failCount = 0;
 const params = new URLSearchParams(location.search);
 const STOP_BEFORE_DOUBLE = params.get("stop") === "beforedouble";
 
+// التحقق من Service Worker قبل البدء
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready
+        .then(function(registration) {
+            console.log('[CHAIN] Service Worker ready, proceeding...');
+            // التحقق من وجود تحديثات
+            registration.update();
+        })
+        .catch(function(error) {
+            console.warn('[CHAIN] Service Worker not ready:', error);
+        });
+}
+
 function post(tag, detail) {
     try {
         const x = new XMLHttpRequest();
