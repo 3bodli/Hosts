@@ -2,16 +2,17 @@ CACHE MANIFEST
 # version 2.0.1
 
 CACHE:
-/index.html
-/cache.html
+index.html
+cache.html
 ../style.css
 ../img.jpg
-/chain_poops.js
-/mem.js
-/int64.js
-/ps4_offsets.js
-/core.js?v=10
-/patches/payload.bin
+chain_poops.js
+mem.js
+int64.js
+ps4_offsets.js
+core.js?v=10
+patches/payload.bin
+rpc_worker.js
 
 NETWORK:
 *
