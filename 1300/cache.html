@@ -1,216 +1,139 @@
 <!DOCTYPE html>
-<html manifest="cache.manifest">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PS4 13.00 FW GoldHEN Host by OBADA</title>
-
+    
     <link rel="stylesheet" href="../style.css">
 </head>
-
 <body>
-
-<script>
-(function () {
-    "use strict";
-
-    var appCache = window.applicationCache;
-    var msg = document.getElementById("msgs");
-
-    function show(text) {
-        msg.innerHTML = text;
-        console.log("[CACHE-V2] " + text);
-    }
-
-    function checking() {
-        show("Checking Offline Cache ...");
-    }
-
-    function downloading() {
-        show("Downloading Offline Cache ...");
-    }
-
-    function progress(e) {
-        if (
-            e &&
-            e.total > 0 &&
-            typeof e.loaded === "number"
-        ) {
-            var percent = Math.round(
-                (e.loaded / e.total) * 100
-            );
-
-            show(
-                "Installing Offline Cache: " +
-                percent +
-                "%"
-            );
-
-            console.log(
-                "[CACHE-V2] " +
-                e.loaded +
-                "/" +
-                e.total +
-                " = " +
-                percent +
-                "%"
-            );
-        }
-    }
-
-    function cached() {
-        show(
-            "Cache Installed Successfully ✔" +
-            "<br><small>" +
-            "Close and re-open the browser." +
-            "</small>"
-        );
-    }
-
-    function noUpdate() {
-        show(
-            "Offline Cache Already Installed ✔" +
-            "<br><small>" +
-            "Close and re-open the browser." +
-            "</small>"
-        );
-    }
-
-    function updateReady() {
-        show("Cache Updated Successfully ✔");
-
-        try {
-            appCache.swapCache();
-        } catch (e) {
-            console.log(
-                "[CACHE-V2] swapCache:",
-                e
-            );
-        }
-    }
-
-    function error(e) {
-        console.error(
-            "[CACHE-V2] CACHE ERROR",
-            e
-        );
-
-        show(
-            "Cache Error ⚠" +
-            "<br><small>" +
-            "Application Cache failed." +
-            "<br>" +
-            "Check the browser console." +
-            "</small>"
-        );
-    }
-
-    function abort() {
-        show(
-            "Cache Download Aborted ⚠"
-        );
-    }
-
-    appCache.addEventListener(
-        "checking",
-        checking,
-        false
-    );
-
-    appCache.addEventListener(
-        "downloading",
-        downloading,
-        false
-    );
-
-    appCache.addEventListener(
-        "progress",
-        progress,
-        false
-    );
-
-    appCache.addEventListener(
-        "cached",
-        cached,
-        false
-    );
-
-    appCache.addEventListener(
-        "noupdate",
-        noUpdate,
-        false
-    );
-
-    appCache.addEventListener(
-        "updateready",
-        updateReady,
-        false
-    );
-
-    appCache.addEventListener(
-        "error",
-        error,
-        false
-    );
-
-    appCache.addEventListener(
-        "abort",
-        abort,
-        false
-    );
-
-})();
-</script>
-
-<h1>
-    PS4 13.00 FW GoldHEN Host by OBADA
-</h1>
-
-<hr>
-
-<br>
-
-<h1
-    id="msgs"
-    style="
+    
+    <h1>PS4 13.00 FW GoldHEN Host by OBADA</h1>
+    
+    <hr>
+    
+    <br>
+    
+    <div id="cache-status" style="
         font-size: 30px;
         margin-top: 77px;
         margin-bottom: 455px;
-    "
->
-    Wait a Moment...
-</h1>
-
-<h1 style="margin-top: 43px;">
-    Special Thanks to:
-
-    <a
-        href="https://twitter.com/sleirsgoevy"
-        style="
-            color: #f31414;
-            margin-left: 10px;
-            margin-right: 10px;
-        "
-    >
-        @sleirsgoevy
-    </a>
-
-    ChendoChap
-
-    <a
-        href="https://twitter.com/Znullptr"
-        style="
-            color: #f31414;
-            margin-left: 10px;
-            margin-right: 10px;
-        "
-    >
-        @Znullptr
-    </a>
-
-    SiSTR0
-</h1>
-
+        text-align: center;
+    ">
+        <h1>جاري تحميل الملفات...</h1>
+        <div id="progress-bar" style="
+            width: 80%;
+            max-width: 500px;
+            height: 30px;
+            background: #333;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #555;
+        ">
+            <div id="progress-fill" style="
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(90deg, #4CAF50, #8BC34A);
+                transition: width 0.5s ease;
+            "></div>
+        </div>
+        <div id="progress-text" style="color: #aaa; font-size: 18px;">
+            0% - جاري التحميل...
+        </div>
+        <div id="cache-message" style="margin-top: 20px;"></div>
+    </div>
+    
+    <h1 style="margin-top: 43px;">
+        Special Thanks to:
+        <a href="https://twitter.com/sleirsgoevy" style="color: #f31414; margin-left: 10px; margin-right: 10px;">
+            @sleirsgoevy
+        </a>
+        ChendoChap
+        <a href="https://twitter.com/Znullptr" style="color: #f31414; margin-left: 10px; margin-right: 10px;">
+            @Znullptr
+        </a>
+        SiSTR0
+    </h1>
+    
+    <script>
+        (function() {
+            'use strict';
+            
+            const statusEl = document.getElementById('cache-message');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            function updateProgress(percent, message) {
+                progressFill.style.width = Math.min(100, percent) + '%';
+                progressText.textContent = Math.min(100, Math.round(percent)) + '% - ' + message;
+                if (statusEl) {
+                    statusEl.textContent = message;
+                }
+            }
+            
+            // التحقق من وجود Service Worker
+            if ('serviceWorker' in navigator) {
+                console.log('[CACHE] Service Worker supported');
+                
+                // تسجيل Service Worker مع تتبع التقدم
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                    .then(function(registration) {
+                        console.log('[CACHE] Service Worker registered');
+                        updateProgress(30, 'Service Worker مسجل');
+                        
+                        // التحقق من التحديثات
+                        return registration.update();
+                    })
+                    .then(function() {
+                        console.log('[CACHE] Update checked');
+                        updateProgress(60, 'جاري التحميل...');
+                        
+                        // مراقبة حالة التخزين المؤقت
+                        return navigator.serviceWorker.ready;
+                    })
+                    .then(function(registration) {
+                        console.log('[CACHE] Service Worker ready');
+                        updateProgress(90, 'تم التحميل بنجاح!');
+                        
+                        // إظهار زر التحديث إذا كان هناك تحديث
+                        if (registration.waiting) {
+                            updateProgress(100, 'تحديث جديد متاح!');
+                            statusEl.innerHTML = '✔ تم تحديث الكاش! <br><br> <button onclick="location.reload()">إعادة التحميل</button>';
+                        } else {
+                            setTimeout(function() {
+                                updateProgress(100, '✔ الكاش جاهز!');
+                                statusEl.innerHTML = '✔ تم تثبيت الكاش بنجاح! <br><br> <button onclick="location.href=\'/index.html\'">بدء التشغيل</button>';
+                            }, 2000);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('[CACHE] Error:', error);
+                        updateProgress(0, '❌ خطأ في التحميل');
+                        statusEl.innerHTML = 'حدث خطأ أثناء تحميل الكاش: ' + error.message;
+                    });
+                
+                // مراقبة حالة الشبكة
+                window.addEventListener('online', function() {
+                    statusEl.innerHTML = '🟢 الاتصال بالإنترنت متاح - جاري تحديث الكاش...';
+                });
+                
+                window.addEventListener('offline', function() {
+                    statusEl.innerHTML = '🔴 لا يوجد اتصال بالإنترنت - سيتم استخدام الكاش المحلي';
+                });
+                
+            } else {
+                // المتصفح لا يدعم Service Worker
+                document.getElementById('cache-status').innerHTML = `
+                    <h1 style="color: #ff6b6b;">⚠ المتصفح لا يدعم التخزين المؤقت</h1>
+                    <p style="color: #aaa;">يرجى استخدام متصفح حديث مثل Chrome أو Firefox</p>
+                `;
+                console.warn('[CACHE] Service Worker not supported');
+            }
+            
+        })();
+    </script>
+    
 </body>
 </html>
