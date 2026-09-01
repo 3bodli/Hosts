@@ -1,105 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="cache.manifest">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <title>OBADA HOSTS</title>
-    
+
     <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
-    
+
     <div id="brand">
-        <img src="../img.jpg" alt="" width="28" height="28">
+        <img
+            src="../img.jpg"
+            alt=""
+            width="28"
+            height="28"
+        >
         <b>OBADA HOSTS</b>
     </div>
-    
+
     <div id="wrap">
+
         <div id="state">
             loading poops chain....
         </div>
+
         <div id="out"></div>
+
     </div>
-    
-    <!-- تسجيل Service Worker -->
-    <script>
-        (function() {
-            'use strict';
-            
-            // التحقق من دعم Service Worker
-            if ('serviceWorker' in navigator) {
-                console.log('[APP] Service Worker is supported');
-                
-                // تسجيل Service Worker
-                navigator.serviceWorker.register('/sw.js', { scope: '/' })
-                    .then(function(registration) {
-                        console.log('[APP] Service Worker registered successfully:', registration);
-                        
-                        // التحقق من وجود تحديث
-                        registration.addEventListener('updatefound', function() {
-                            const newWorker = registration.installing;
-                            console.log('[APP] New Service Worker found, updating...');
-                            
-                            newWorker.addEventListener('statechange', function() {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    console.log('[APP] Update ready, reloading...');
-                                    // إعادة تحميل الصفحة لتطبيق التحديث
-                                    window.location.reload();
-                                }
-                            });
-                        });
-                        
-                        // عرض حالة التخزين المؤقت
-                        updateCacheStatus(registration);
-                    })
-                    .catch(function(error) {
-                        console.error('[APP] Service Worker registration failed:', error);
-                    });
-                
-                // مراقبة التغييرات في Service Worker
-                navigator.serviceWorker.addEventListener('controllerchange', function() {
-                    console.log('[APP] Service Worker controller changed');
-                });
-            } else {
-                console.warn('[APP] Service Worker is not supported in this browser');
-                document.getElementById('state').textContent = 'Your browser does not support offline caching';
-            }
-            
-            // دالة لتحديث حالة التخزين المؤقت
-            function updateCacheStatus(registration) {
-                // التحقق من وجود تحديثات
-                registration.update()
-                    .then(function() {
-                        console.log('[APP] Checked for updates');
-                    })
-                    .catch(function(error) {
-                        console.error('[APP] Update check failed:', error);
-                    });
-            }
-            
-            // إرسال رسالة لـ Service Worker لتخطي مرحلة الانتظار
-            function skipWaiting() {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready
-                        .then(function(registration) {
-                            if (registration.waiting) {
-                                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-                            }
-                        });
-                }
-            }
-            
-            // استدعاء skipWaiting بعد تحميل الصفحة
-            window.addEventListener('load', function() {
-                setTimeout(skipWaiting, 3000);
-            });
-            
-        })();
+
+    <script type="module">
+        import "./chain_poops.js";
     </script>
-    
-    <!-- تحميل الملفات الأساسية -->
-    <script type="module" src="./chain_poops.js"></script>
-    
+
 </body>
+
 </html>
